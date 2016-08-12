@@ -7,13 +7,14 @@
     "test": "test"
   },
   "scripts": {
-    "start": "",
+    "start": "nodemon server/server",
     "production": "webpack -p",
     "test": "webpack"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.14.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
@@ -31,6 +32,7 @@
     "enzyme": "^2.4.1",
     "jsdom": "^9.4.2",
     "mocha": "^3.0.2",
+    "nodemon": "^1.10.0",
     "react-addons-test-utils": "^15.3.0",
     "webpack": "^1.13.1"
   }
