@@ -1,11 +1,11 @@
 const express = require('express');
-const app = express();
 const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
 
-const PORT = 8080;
+const app = express();
+const PORT = 3000;
 const DEVPORT = 9090;
 
 
@@ -14,18 +14,18 @@ app.use(express.static(path.join(__dirname, './../')));
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
-    res.sendFile(__dirname + '/client/app.js');
+    res.sendFile(path.join(__dirname, '/client/app.js'));
   } else {
-    res.redirect('//localhost:9090/client/app.js');
+    res.redirect(`//localhost:${DEVPORT}/client/app.js`);
   }
 });
 
 // Serve aggregate stylesheet depending on environment
 app.get('/style.css', (req, res) => {
   if (process.env.PRODUCTION) {
-    res.sendFile(__dirname + '/client/style.css');
+    res.sendFile(path.join(__dirname, '/client/style.css'));
   } else {
-    res.redirect('//localhost:9090/client/style.css');
+    res.redirect(`//localhost:${DEVPORT}/client/style.css`);
   }
 });
 
