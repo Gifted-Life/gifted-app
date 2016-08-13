@@ -30,10 +30,18 @@
     "chai": "^3.5.0",
     "cheerio": "^0.20.0",
     "enzyme": "^2.4.1",
+    "eslint": "^3.3.0",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-plugin-import": "^1.13.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.0.0",
     "jsdom": "^9.4.2",
     "mocha": "^3.0.2",
     "nodemon": "^1.10.0",
     "react-addons-test-utils": "^15.3.0",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.12.2"
   }
 }
