@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "start": "nodemon server/server",
+    "start": "nodemon server/start",
     "production": "webpack -p",
-    "test": "webpack"
+    "test": "mocha test/.setup.js test/*-Test.js"
   },
   "author": "",
   "license": "ISC",
