@@ -21,9 +21,9 @@ app.get('/app.js', (req, res) => {
 // Serve aggregate stylesheet depending on environment
 app.get('/style.css', (req, res) => {
   if (process.env.PRODUCTION) {
-    res.sendFile(path.join(__dirname, '/client/style.css'));
+    res.sendFile(path.join(__dirname, '/style.css'));
   } else {
-    res.redirect(`//localhost:${DEVPORT}/client/style.css`);
+    res.redirect(`//localhost:${DEVPORT}/style.css`);
   }
 });
 
