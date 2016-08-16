@@ -8,9 +8,7 @@ const app = express();
 const PORT = 3000;
 const DEVPORT = 9090;
 
-
 app.use(express.static(path.join(__dirname, './../')));
-
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
@@ -42,7 +40,7 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
   noInfo: true,
-  historyApiFallback: true
+  historyApiFallback: true,
 }).listen(DEVPORT, 'localhost', (err, result) => {
   if (err) {
     console.log(err);

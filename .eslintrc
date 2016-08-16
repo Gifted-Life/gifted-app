@@ -3,5 +3,10 @@
     "installedESLint": true,
     "plugins" : [
         "react"
-    ]
+    ],
+    "rules": {
+      "no-use-before-define": 0,
+      "no-param-reassign": 0,
+      "no-console": 0
+    },
 }
