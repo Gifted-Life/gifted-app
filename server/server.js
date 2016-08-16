@@ -12,9 +12,9 @@ app.use(express.static(path.join(__dirname, './../')));
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
-    res.sendFile(path.join(__dirname, '/client/app.js'));
+    res.sendFile(path.join(__dirname, '/src/bundle/app.js'));
   } else {
-    res.redirect(`//localhost:${DEVPORT}/client/app.js`);
+    res.redirect(`//localhost:${DEVPORT}/src/bundle/app.js`);
   }
 });
 
@@ -30,7 +30,6 @@ app.get('/style.css', (req, res) => {
 // Serve index page
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../', 'index.html'));
-  // res.sendFile(__dirname + '/index.html');
 });
 
 
