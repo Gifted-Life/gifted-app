@@ -3,7 +3,8 @@ import React, { PropTypes } from 'react';
 const EventCardInfo = props => {
   return (
     <div>
-
+      <p>{props.eventName}</p>
+      <p>{props.location.name}</p>
     </div>
   );
 };
