@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -21,17 +20,20 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: /\.jsx?$/,
+      test: /\.js?$/,
       loaders: ['react-hot', 'babel-loader'],
       exclude: /node_modules/,
     },
     {
-      test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('css!sass'),
-    }],
+      test: /\.css$/,
+      loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+    },
+    ],
   },
+  postcss: [
+    require('autoprefixer-core'),
+  ],
   plugins: [
-    new ExtractTextPlugin('build.css', { allChunks: true }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
