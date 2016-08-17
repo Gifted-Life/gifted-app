@@ -4,3 +4,4 @@ npm-debug.log
 
 #production files
 dist/
+src/bundle/

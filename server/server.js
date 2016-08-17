@@ -8,31 +8,28 @@ const app = express();
 const PORT = 3000;
 const DEVPORT = 9090;
 
-
 app.use(express.static(path.join(__dirname, './../')));
-
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
-    res.sendFile(path.join(__dirname, '/client/app.js'));
+    res.sendFile(path.join(__dirname, '/src/bundle/app.js'));
   } else {
-    res.redirect(`//localhost:${DEVPORT}/client/app.js`);
+    res.redirect(`//localhost:${DEVPORT}/src/bundle/app.js`);
   }
 });
 
 // Serve aggregate stylesheet depending on environment
 app.get('/style.css', (req, res) => {
   if (process.env.PRODUCTION) {
-    res.sendFile(path.join(__dirname, '/client/style.css'));
+    res.sendFile(path.join(__dirname, '/style.css'));
   } else {
-    res.redirect(`//localhost:${DEVPORT}/client/style.css`);
+    res.redirect(`//localhost:${DEVPORT}/style.css`);
   }
 });
 
 // Serve index page
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../', 'index.html'));
-  // res.sendFile(__dirname + '/index.html');
 });
 
 
@@ -42,7 +39,7 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
   noInfo: true,
-  historyApiFallback: true
+  historyApiFallback: true,
 }).listen(DEVPORT, 'localhost', (err, result) => {
   if (err) {
     console.log(err);

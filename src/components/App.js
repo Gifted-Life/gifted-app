@@ -1,10 +1,11 @@
+import styles from './App.css';
 import React, { Component } from 'react';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        Hello World!
+      <div className={styles.App}>
+        Hello World!!
       </div>
     );
   }
