@@ -1,13 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import EventCard from './../../src/components/EventCard/EventCard';
+import Header from './../../src/components/Header/Header';
 
-describe('EventCardInfo Component ', function() {
-  it('should be an instance of EventCardInfo', function() {
-    const wrapper = shallow(<EventCardInfo />);
+describe('Header Component ', function() {
+  const wrapper = shallow(<Header />);
+
+  it('should be an instance of Header', function() {
     const inst = wrapper.instance();
-    expect(inst).to.be.instanceOf(EventCardInfo);
+    expect(inst).to.be.instanceOf(Header);
   })
 });
 
