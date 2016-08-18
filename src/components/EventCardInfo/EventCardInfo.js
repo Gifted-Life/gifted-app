@@ -1,10 +1,14 @@
 import React, { PropTypes } from 'react';
 
-const EventCardInfo = props => {
+const EventCardInfo = ({ eventId, eventName, location, timeAndDate, peopleGoing }) => {
   return (
     <div>
-      <p>{props.eventName}</p>
-      <p>{props.location.name}</p>
+      <h3>{eventName}</h3>
+      <hr />
+      <p>{location.name}</p>
+      <p>{`${location.address} ${location.city}, ${location.state} ${location.zip}`}</p>
+      <p>{timeAndDate}</p>
+      <p><span>{peopleGoing}</span> people going</p>
     </div>
   );
 };
@@ -15,6 +19,13 @@ EventCardInfo.propTypes = {
   location: PropTypes.object,
   timeAndDate: PropTypes.string,
   peopleGoing: PropTypes.number,
+};
+
+EventCardInfo.defaultProps = {
+  eventName: '',
+  location: {},
+  timeAndDate: '',
+  peopleGoing: 0,
 };
 
 export default EventCardInfo;
