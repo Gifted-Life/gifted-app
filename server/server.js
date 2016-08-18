@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
+require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +15,18 @@ app.use(express.static(path.join(__dirname, './../')));
 
 app.post('/user/signup', (req, res) => {
   res.status(200).send('User successfully signed up!');
+});
+
+app.post('/user/auth', (req, res) => {
+  res.status(200).send('User successfully logged in!');
+});
+
+app.post('/:userid/event', (req, res) => {
+  const event = {
+    eventID: 1234
+  };
+  
+  res.send(event);
 });
 
 app.get('/app.js', (req, res) => {
