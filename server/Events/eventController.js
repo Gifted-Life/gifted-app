@@ -28,7 +28,6 @@ eventController.createEvent = (req, res, next) => {
   eventController.createTable()
     .then( () => {
       Event.forge(req.body).save().then( result => {
-        console.log('result', result);
         res.status(201).send({
           eventID: result.attributes.eventID
         });
