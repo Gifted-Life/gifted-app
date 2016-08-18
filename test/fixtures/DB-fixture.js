@@ -2,7 +2,11 @@
 
 const knex = require('knex')({
   client: 'pg',
-  connection: process.env.TEST_DB
+  connection: process.env.TEST_DB,
+  pool: {
+    min: 2,
+    max: 10
+  }
 });
 
 const bookshelf = require('bookshelf')(knex);
