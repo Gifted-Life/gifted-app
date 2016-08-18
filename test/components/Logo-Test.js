@@ -3,14 +3,14 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import Logo from './../../src/components/Logo/Logo';
 
-describe('Logo Component ', function() {
-  const wrapper = shallow(<Logo />);
-
-  it('should be an instance of Logo', function() {
-    const inst = wrapper.instance();
-    expect(inst).to.be.instanceOf(Logo);
-  })
-});
+// describe('Logo Component ', function() {
+//
+//   it('should be an instance of Logo', function() {
+//     const wrapper = mount(<Logo />);
+//     const inst = wrapper.instance();
+//     expect(inst).to.be.instanceOf(Logo);
+//   })
+// });
 
 //   it('should have 6 <p> tags', function() {
 //     const wrapper = shallow(<EventCardInfo />);

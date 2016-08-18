@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Logo } from './../Logo';
+import Logo from './../Logo/Logo';
 
 const Header = props => {
   return (
     <div>
-      <Logo />
+      <Logo imgSrc={props.imgSrc} />
     </div>
   );
 };

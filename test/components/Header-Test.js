@@ -2,14 +2,27 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import Header from './../../src/components/Header/Header';
+import Logo from './../../src/components/Logo/Logo';
 
-describe('Header Component ', function() {
-  const wrapper = shallow(<Header />);
+describe('Header Component ', () => {
 
-  it('should be an instance of Header', function() {
+  it('should be an instance of Header', () => {
+    const wrapper = mount(<Header />);
     const inst = wrapper.instance();
     expect(inst).to.be.instanceOf(Header);
-  })
+  });
+
+  it('renders one <Logo /> component', () => {
+    const wrapper = shallow(<Header />);
+    expect(wrapper.find(Logo)).to.have.length(1);
+  });
+
+  it('allows us to set props', () => {
+    const wrapper = mount(<Header bar="baz" />);
+    expect(wrapper.props().bar).to.equal("baz");
+    wrapper.setProps({ bar: "foo" });
+    expect(wrapper.props().bar).to.equal("foo");
+  });
 });
 
 //   it('should have 6 <p> tags', function() {

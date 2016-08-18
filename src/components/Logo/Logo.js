@@ -4,7 +4,7 @@ import styles from './Logo.css';
 const Logo = props => {
   return (
     <div>
-      <img src={props.imgSrc} role="presentation" style={styles.logo} />
+      <img src={props.imgSrc} role="presentation" styles={styles.logo} />
     </div>
   );
 };
