@@ -4,6 +4,8 @@ const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
+const userController = require('./Users/userController');
+const eventController = require('./Events/eventController');
 require('dotenv').config();
 
 const app = express();
@@ -13,21 +15,13 @@ const DEVPORT = 9090;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './../')));
 
-app.post('/user/signup', (req, res) => {
-  res.status(200).send('User successfully signed up!');
-});
+app.post('/user/signup', userController.createUser);
 
 app.post('/user/auth', (req, res) => {
   res.status(200).send('User successfully logged in!');
 });
 
-app.post('/:userid/event', (req, res) => {
-  const event = {
-    eventID: 1234
-  };
-  
-  res.send(event);
-});
+app.post('/:userid/event', eventController.createEvent); 
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
