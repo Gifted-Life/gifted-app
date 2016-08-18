@@ -2,19 +2,19 @@
 const test = require('tape');
 const request = require('supertest');
 const app = require('../server/server');
-const DB = require('./fixtures/DB-fixture');
+const faker = require('faker');
 
 test('Successfully signups user', (t) => {
   request(app)
     .post('/user/signup')
     .send({
-      name: 'Michael',
-      email: 'test@xyz.com',
-      password: 'fluffyponies96'
+      name: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: faker.internet.password()
     })
-    .expect(200)
+    .expect(201)
     .end( (err, res) => {
-      t.same(res.status, 200, 'correct status code was sent');
+      t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
 });
@@ -29,6 +29,7 @@ test('Succesfully creates an event', (t) => {
       comments: 'bring love to everything you do',
       priceMin: 10,
       priceMax: 25,
+      isMatched: false,
       creator: 'test@xyz.com'
     })
     .expect(200)
