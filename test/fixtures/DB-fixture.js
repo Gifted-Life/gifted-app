@@ -2,7 +2,7 @@
 require('dotenv').config();
 let knex;
 
-if (process.env.TEST_DB.length) {
+if (process.env.TEST_DB) {
   knex = require('knex')({
     client: 'pg',
     connection: process.env.TEST_DB,
