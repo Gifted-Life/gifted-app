@@ -16,6 +16,14 @@ const Event = bookshelf.Model.extend({
   idAttribute: 'eventID'
 });
 
+const UserEvents = bookshelf.Model.extend({
+  tableName: 'user-events'
+});
+
+const EventPartnerMatches = bookshelf.Model.extend({
+  tableName: 'event-partner-matches'
+});
+
 const fakeEvent = {
   title: 'Christmas Party!',
   location: 'Mom\'s house',
@@ -25,6 +33,7 @@ const fakeEvent = {
   priceMax: 25
 };
 
+// Need email user id column?
 knex.schema.createTableIfNotExists('users', user => {
   user.increments();
   user.string('name');
@@ -32,11 +41,12 @@ knex.schema.createTableIfNotExists('users', user => {
   user.string('password');
 })
 .then( () => {
-  User.forge({name: 'Fluffy', email: 'test@xyz.com', password: 'ponies98'}).save().then( result => {
+  User.forge({ name: 'Fluffy', email: 'test@xyz.com', password: 'ponies98' }).save().then( result => {
     console.log('user successfully created', result);
   });
 });
 
+// Need to add creator column?
 knex.schema.createTableIfNotExists('events', event => {
   event.increments('eventID');
   event.string('title');
@@ -52,9 +62,35 @@ knex.schema.createTableIfNotExists('events', event => {
     console.log('event successfully created', result);
   });
 });
-  
+
+knex.schema.createTableIfNotExists('user-events', userEvent => {
+  userEvent.increments();
+  userEvent.string('userID');
+  userEvent.integer('eventID');
+  userEvent.string('rsvpStatus');
+})
+.then( () => {
+  UserEvents.forge({ userID: 'me123', eventID: 1234, rsvpStatus: 'pending' }).save().then( result => {
+    console.log('user event successfully added', result);
+  });
+});
+
+knex.schema.createTableIfNotExists('event-partner-matches', eventPartnerMatch => {
+  eventPartnerMatch.increments();
+  eventPartnerMatch.integer('eventID');
+  eventPartnerMatch.string('partner1');
+  eventPartnerMatch.string('partner2');
+})
+.then( () => {
+  EventPartnerMatches.forge({ eventID: 1234, partner1: 'me123', partner2: 'you123' }).save().then( result => {
+    console.log('successfully added event partner match', result);
+  });
+});
+
 module.exports = {
   bookshelf,
   User,
-  Event
+  Event,
+  UserEvents,
+  EventPartnerMatches,
 };
