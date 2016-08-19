@@ -14,6 +14,8 @@ test('Successfully signups user', (t) => {
     })
     .expect(201)
     .end( (err, res) => {
+      t.equal(process.env.TEST_DB_KEY, 'wdwd', 'test db key');
+      t.equal(TEST_DB_KEY, 'wdwd', 'test db key without process.env');
       t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
