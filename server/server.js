@@ -32,9 +32,24 @@ app.put('/:userid/:eventid/response', (req, res) => {
 
 app.post('/event/:eventid/match', (req, res) => {
   const matchedUser = {
+    matchedUser: 'Erlich Bachman'
+  }
+  
+  res.status(200).send(matchedUser);
+});
+
+app.post('/event/:eventid/invite-user', (req, res) => {
+  res.status(200).send('Successfully invited user to event!');
+});
+
+app.put('/:userid/:eventid/response', (req, res) => {
+  res.status(200).send('Successfully responded to event!');
+});
+
+app.post('/event/:eventid/match', (req, res) => {
+  const matchedUser = {
     matchedUser: 'Erlich Bachman',
   };
-  
   res.status(200).send(matchedUser);
 });
 
