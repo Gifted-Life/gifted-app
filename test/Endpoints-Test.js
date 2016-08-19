@@ -14,8 +14,8 @@ test('Successfully signups user', (t) => {
     })
     .expect(201)
     .end( (err, res) => {
-      t.ok(process.env.TRAVIS_SECURE_ENV_VARS, true, 'should have travis secure env vars present');
-      t.ok(process.env.TEST_DB_KEY, 'wdw', 'should have test db key');
+      t.equal(process.env.TRAVIS_SECURE_ENV_VARS, true, 'should have travis secure env vars present');
+      t.equal(process.env.TEST_DB_KEY, 'wdw', 'should have test db key');
       t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
