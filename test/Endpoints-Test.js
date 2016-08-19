@@ -52,3 +52,41 @@ test('Successfully logins user and returns all events associated with that user'
       t.end();
     });
 });
+
+test('Successfully invites user to event', (t) => {
+  request(app)
+    .post('/event/1234/invite-user')
+    .send({
+      inviteUser: 'erlich',
+    })
+    .expect(200)
+    .end( (err, res) => {
+      t.same(res.status, 200, 'correct status code was sent');
+      t.end();
+    });
+});
+
+test('Successfully submits rsvp response to event', (t) => {
+  request(app)
+    .put('/me123/1234/response')
+    .send({
+      response: 'pending'
+    })
+    .expect(200)
+    .end( (err, res) => {
+      t.same(res.status, 200, 'correct status code was sent');
+      t.end();
+    });
+});
+
+test('Successfully matches group and returns partner match', (t) => {
+  request(app)
+    .post('/event/1234/match')
+    .send(null)
+    .expect(200)
+    .end( (err, res) => {
+      t.same(res.status, 200, 'correct status code was sent');
+      t.ok(res.body.matchedUser, 'matchedPartner should exist');
+      t.end();
+    });
+});
