@@ -14,9 +14,12 @@ if (process.env.TRAVIS_SECURE_ENV_VARS) {
 } else {
   require('dotenv').config();
 
+  console.log('check it homes',  process.env.TEST_DB_URI);
+  console.log('wdwdw', TEST_DB_URI);
+
   knex = require('knex')({
     client: 'pg',
-    connection: process.env.TEST_DB,
+    connection: process.env.TEST_DB_URI,
     pool: {
       min: 1,
       max: 7
