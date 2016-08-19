@@ -9,6 +9,7 @@ userController.createTable = () => {
   return knex.schema.createTableIfNotExists('users', user => {
     user.increments();
     user.string('name');
+    user.string('emailid');
     user.string('email');
     user.string('password');
   });
