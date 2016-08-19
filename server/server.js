@@ -6,7 +6,6 @@ const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
 const userController = require('./Users/userController');
 const eventController = require('./Events/eventController');
-require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
