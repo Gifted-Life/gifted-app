@@ -5,7 +5,7 @@ let knex;
 if (process.env.TRAVIS_SECURE_ENV_VARS) {
   knex = require('knex')({
     client: 'pg',
-    connection: process.env.TEST_DB,
+    connection: process.env.TEST_DB_URI,
     pool: {
       min: 1,
       max: 7
