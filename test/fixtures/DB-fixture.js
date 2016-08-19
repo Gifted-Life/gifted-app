@@ -1,20 +1,29 @@
 'use strict';
+let knex;
 
-const knex = require('knex')({
-  client: 'pg',
-  connection: process.env.TEST_DB
-});
+if (process.env.TRAVIS_SECURE_ENV_VARS === 'false') {
+  knex = require('knex')({
+    client: 'pg',
+    connection: process.env.TEST_DB_KEY,
+    pool: {
+      min: 1,
+      max: 7
+    }
+  });
+} else {
+  require('dotenv').config();
+
+  knex = require('knex')({
+    client: 'pg',
+    connection: process.env.TEST_DB,
+    pool: {
+      min: 1,
+      max: 7
+    }
+  });
+}
 
 const bookshelf = require('bookshelf')(knex);
-
-const User = bookshelf.Model.extend({
-  tableName: 'users'
-});
-
-const Event = bookshelf.Model.extend({
-  tableName: 'events',
-  idAttribute: 'eventID'
-});
 
 const UserEvents = bookshelf.Model.extend({
   tableName: 'user-events'
@@ -32,36 +41,6 @@ const fakeEvent = {
   priceMin: 10,
   priceMax: 25
 };
-
-// Need email user id column?
-knex.schema.createTableIfNotExists('users', user => {
-  user.increments();
-  user.string('name');
-  user.string('email');
-  user.string('password');
-})
-.then( () => {
-  User.forge({ name: 'Fluffy', email: 'test@xyz.com', password: 'ponies98' }).save().then( result => {
-    console.log('user successfully created', result);
-  });
-});
-
-// Need to add creator column?
-knex.schema.createTableIfNotExists('events', event => {
-  event.increments('eventID');
-  event.string('title');
-  event.string('location');
-  event.string('time');
-  event.string('comments');
-  event.integer('priceMin');
-  event.integer('priceMax');
-  event.boolean('isMatched');
-})
-.then( () => {
-  Event.forge(fakeEvent).save().then( result => {
-    console.log('event successfully created', result);
-  });
-});
 
 knex.schema.createTableIfNotExists('user-events', userEvent => {
   userEvent.increments();
@@ -88,9 +67,8 @@ knex.schema.createTableIfNotExists('event-partner-matches', eventPartnerMatch =>
 });
 
 module.exports = {
+  knex,
   bookshelf,
-  User,
-  Event,
   UserEvents,
   EventPartnerMatches,
 };

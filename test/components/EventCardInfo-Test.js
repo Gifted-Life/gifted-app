@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import EventCardInfo from './../../src/components/EventCardInfo/EventCardInfo';
 
 describe('EventCardInfo Component ', function() {
-  it('should be an instance of EventCardInfo', function() {
+  xit('should be an instance of EventCardInfo', function() {
     const wrapper = shallow(<EventCardInfo />);
     const inst = wrapper.instance();
     expect(inst).to.be.instanceOf(EventCardInfo);
@@ -20,7 +20,7 @@ describe('EventCardInfo Component ', function() {
     expect(wrapper.find('p').length).to.equal(4);
   })
 
-  it('should have a button component', function() {
+  xit('should have a button component', function() {
     const wrapper = shallow(<EventCardInfo />);
     expect(wrapper.find(RectangleButton).length).to.equal(1);
   })
