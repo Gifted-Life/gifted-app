@@ -1,7 +1,7 @@
 'use strict';
 let knex;
 
-if (process.env.TRAVIS_SECURE_ENV_VARS == true) {
+if (process.env.TRAVIS_SECURE_ENV_VARS === 'false') {
   knex = require('knex')({
     client: 'pg',
     connection: process.env.TEST_DB_KEY,
