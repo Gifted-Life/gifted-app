@@ -23,10 +23,25 @@ app.post('/user/auth', (req, res) => {
 
 app.post('/:userid/event', (req, res) => {
   const event = {
-    eventID: 1234
+    eventID: 1234,
   };
   
   res.send(event);
+});
+
+app.post('/event/:eventid/invite-user', (req, res) => {
+  res.status(200).send('Successfully invited user to event!');
+});
+
+app.put('/:userid/:eventid/response', (req, res) => {
+  res.status(200).send('Successfully responded to event!');
+});
+
+app.post('/event/:eventid/match', (req, res) => {
+  const matchedUser = {
+    matchedUser: 'Erlich Bachman',
+  };
+  res.status(200).send(matchedUser);
 });
 
 app.get('/app.js', (req, res) => {
