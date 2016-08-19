@@ -1,8 +1,8 @@
 'use strict';
-require('dotenv').config();
+const fs = require('fs');
 let knex;
 
-if (process.env.TEST_DB) {
+if (process.env.TRAVIS_SECURE_ENV_VARS) {
   knex = require('knex')({
     client: 'pg',
     connection: process.env.TEST_DB,
@@ -12,9 +12,11 @@ if (process.env.TEST_DB) {
     }
   });
 } else {
+  require('dotenv').config();
+
   knex = require('knex')({
     client: 'pg',
-    connection: TEST_DB,
+    connection: process.env.TEST_DB,
     pool: {
       min: 1,
       max: 7
