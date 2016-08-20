@@ -26,7 +26,7 @@ test('Successfully signups user', (t) => {
     });
 });
 
-test('Succesfully creates an event', (t) => {
+test('Succesfully creates an event & connects user with event', (t) => {
   request(app)
     .post('/mlaythe/event')
     .send({
@@ -49,15 +49,15 @@ test('Succesfully creates an event', (t) => {
 //TODO test if user receives events when he/she logins
 test('Successfully logins user and returns all events associated with that user', (t) => {
   request(app)
-    .post('/user/auth')
+    .post('/user/login')
     .send({
-      email: 'test@xyz.com',
-      password: 'fluffyponies96'
+      email: 'Florian_Sporer@gmail.com',
+      password: 'BG8mMrm4S1tUPop'
     })
-    .expect(200)
+    .expect(201)
     .end( (err, res) => {
-      // t.ok(res.body.id_token, 'jwt should exist');
-      t.same(res.status, 200, 'correct status code was sent');
+      t.ok(res.body.id_token, 'jwt should exist');
+      t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
 });
