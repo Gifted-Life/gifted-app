@@ -27,9 +27,14 @@ userController.authenticateUser = (req, res, next) => {
         return res.status(400).send('Invalid email');
       }
 
-      return userController.decryptPassword(req.body, model.attributes.password, res)
-        ? next()
-        : res.status(401).send('Password does not match our records.')
+      const isValidUser = userController.decryptPassword(req.body, model.attributes.password, res);
+
+      if (isValidUser) {
+        req.body.emailid = model.attributes.emailid;
+        next();
+      } else {
+        res.status(401).send('Password does not match our records.');
+      }
     })
     .catch( err => {
       res.status(400).send('Error authenticating user.');
