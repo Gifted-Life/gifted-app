@@ -3,6 +3,8 @@ const test = require('tape');
 const request = require('supertest');
 const app = require('../server/server');
 const faker = require('faker');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 test('Successfully signups user', (t) => {
   request(app)
@@ -14,6 +16,11 @@ test('Successfully signups user', (t) => {
     })
     .expect(201)
     .end( (err, res) => {
+      const token = jwt.verify(res.body.id_token, process.env.JWT_KEY);
+
+      t.ok(res.body.id_token, 'jwt should exist');
+      t.ok(token.emailid, 'emailid on token should exist');
+      t.equal(token.admin, false, 'admin should be set to false on jwt upon signup');
       t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
@@ -49,6 +56,7 @@ test('Successfully logins user and returns all events associated with that user'
     })
     .expect(200)
     .end( (err, res) => {
+      // t.ok(res.body.id_token, 'jwt should exist');
       t.same(res.status, 200, 'correct status code was sent');
       t.end();
     });
