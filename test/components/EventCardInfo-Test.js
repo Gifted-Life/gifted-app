@@ -15,7 +15,7 @@ describe('EventCardInfo Component ', function() {
     expect(wrapper.find('p').length).to.equal(4);
   })
 
-  xit('should have a button component', function() {
+  it('should have a button component', function() {
     const wrapper = shallow(<EventCardInfo />);
     expect(wrapper.find(RectangleButton).length).to.equal(1);
   })
