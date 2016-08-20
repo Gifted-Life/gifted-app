@@ -28,7 +28,7 @@ test('Successfully signups user', (t) => {
 
 test('Succesfully creates an event & connects user with event', (t) => {
   request(app)
-    .post('/mlaythe/event')
+    .post('/florian/event')
     .send({
       title: 'Christmas Party!',
       location: 'Mom\'s house',
@@ -37,7 +37,7 @@ test('Succesfully creates an event & connects user with event', (t) => {
       priceMin: 10,
       priceMax: 25,
       isMatched: false,
-      creator: 'test@xyz.com'
+      creator: 'Florian_Sporer@gmail.com'
     })
     .expect(200)
     .end( (err, res) => {
@@ -57,6 +57,7 @@ test('Successfully logins user and returns all events associated with that user'
     .expect(201)
     .end( (err, res) => {
       t.ok(res.body.id_token, 'jwt should exist');
+      t.ok(res.body.events, 'events should exist');
       t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
