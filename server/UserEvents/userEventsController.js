@@ -5,6 +5,7 @@ const UserEvents = require('./userEventsModel');
 const User = require('../Users/userModel.js');
 const tokenController = require('../Utils/tokenController');
 const _ = require('lodash');
+const Event = require('../Events/eventModel.js');
 
 const userEventsController = {};
 
@@ -40,20 +41,43 @@ userEventsController.getEvents = (req, res, next) => {
         return res.status(201).send('No events associated with this user.');
       }
       
-      const allEvents = [];
+      const eventPromises = [];
+      let eventIDs = [];
+      let eventsInfo = [];
 
+      //push every eventid from query results
       _.forEach(events.models, (event, key) => {
-        allEvents.push(event.attributes.eventid);
+        eventIDs.push(event.attributes.eventid);
       });
 
-      //TODO fetch event info for each eventid in allEvents array
+      //get rid of duplicates
+      eventIDs = _.uniq(eventIDs);
 
-      console.log(allEvents);
-      
-      res.status(201).send({
-        id_token: tokenController.createToken(req.body, req.body.emailid),
-        events: allEvents
+      //find each event from the eventids & push into promise array
+      _.forEach(eventIDs, (eventid, key) => {
+        eventPromises.push(Event.query({where: {eventID: eventid}}).fetch());
       });
+
+      //model is an array that contains the accum result of running through each promise
+      Promise.all(eventPromises).then( model => {
+        return model;
+      })
+      .then( events => {
+        //get rid of nulls
+        _.forEach(events, (event, key) => {
+          if (event) {
+            eventsInfo.push(event.attributes);
+          }
+        });
+
+        res.status(201).send({
+          id_token: tokenController.createToken(req.body, req.body.emailid),
+          events: eventsInfo
+        });
+      })
+      .catch( err => {
+        console.log('Error fetching event', err.message);
+      })
     })
     .catch( err => {
       console.log('wdwdwdwd inside err');
