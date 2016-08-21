@@ -80,7 +80,6 @@ userEventsController.getEvents = (req, res, next) => {
       })
     })
     .catch( err => {
-      console.log('wdwdwdwd inside err');
       res.status(400).send('Error fetching events associated with user.');
     });
 };
