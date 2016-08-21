@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../server/server');
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const jwtKey = process.env.JWT_KEY;
 
 test('Successfully signups user', (t) => {
   request(app)
@@ -16,7 +16,13 @@ test('Successfully signups user', (t) => {
     })
     .expect(201)
     .end( (err, res) => {
-      const token = jwt.verify(res.body.id_token, process.env.JWT_KEY);
+      let token;
+
+      if (jwtKey === undefined) {
+        token = jwt.verify(res.body.id_token, process.env.JWT_SECRET);
+      } else {
+        token = jwt.verify(res.body.id_token, jwtKey);
+      }
 
       t.ok(res.body.id_token, 'jwt should exist');
       t.ok(token.emailid, 'emailid on token should exist');
