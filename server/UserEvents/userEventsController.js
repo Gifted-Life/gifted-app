@@ -5,7 +5,7 @@ const UserEvents = require('./userEventsModel');
 const User = require('../Users/userModel.js');
 const tokenController = require('../Utils/tokenController');
 const _ = require('lodash');
-const Event = require('../Events/eventModel.js');m
+const Event = require('../Events/eventModel.js');
 
 const userEventsController = {};
 
@@ -19,7 +19,10 @@ userEventsController.createTable = () => {
 };  
 
 userEventsController.createUserEventConnection = (req, res, next) => {
-  userEventsController.createTable()
+  const isCreatingEvent = req.url.indexOf('invite-user');
+  
+  if (isCreatingEvent === -1) {
+    userEventsController.createTable()
     .then( () => {
       UserEvents.forge({ email: req.body.creator, eventid: req.body.eventID, rsvpStatus: 'attending' }).save().then( result => {
         res.status(201).send({
@@ -30,6 +33,17 @@ userEventsController.createUserEventConnection = (req, res, next) => {
     .catch( err => {
       res.status(400).send('Error adding user-event connection.');
     });
+  } else {
+    userEventsController.createTable()
+    .then( () => {
+      UserEvents.forge({ email: req.body.inviteUser, eventid: req.params.eventid, rsvpStatus: 'pending' }).save().then( result => {
+        res.status(200).send('User successfully invited to event');
+      });
+    })
+    .catch( err => {
+      res.status(400).send('Error inviting user-event connection.');
+    });
+  }
 };
 
 userEventsController.getEvents = (req, res, next) => {
