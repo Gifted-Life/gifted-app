@@ -6,6 +6,7 @@ const User = require('../Users/userModel.js');
 const tokenController = require('../Utils/tokenController');
 const _ = require('lodash');
 const Event = require('../Events/eventModel.js');
+const multiline = require('multiline');
 
 const userEventsController = {};
 
@@ -33,54 +34,20 @@ userEventsController.createUserEventConnection = (req, res, next) => {
 };
 
 userEventsController.getEvents = (req, res, next) => {
-  UserEvents
-    .query({where: {email: req.body.email}})
-    .fetchAll()
-    .then( events => {
-      if (!events) {
-        return res.status(201).send('No events associated with this user.');
-      }
-      
-      const eventPromises = [];
-      let eventIDs = [];
-      let eventsInfo = [];
-
-      //push every eventid from query results
-      _.forEach(events.models, (event, key) => {
-        eventIDs.push(event.attributes.eventid);
+  knex
+    .select('title', 'location', 'time', 'comments', 'priceMin', 'priceMax', 'creator', 'rsvpStatus')
+    .from('events')
+    .innerJoin('user-events', 'user-events.eventid', 'events.eventID')
+    .innerJoin('users', 'user-events.email', 'users.email')
+    .where('users.email', req.body.email)
+    .then( result => {
+      res.status(201).send({
+        id_token: tokenController.createToken(req.body, req.body.emailid),
+        events: result
       });
-
-      //get rid of duplicates
-      eventIDs = _.uniq(eventIDs);
-
-      //find each event from the eventids & push into promise array
-      _.forEach(eventIDs, (eventid, key) => {
-        eventPromises.push(Event.query({where: {eventID: eventid}}).fetch());
-      });
-
-      //model is an array that contains the accum result of running through each promise
-      Promise.all(eventPromises).then( model => {
-        return model;
-      })
-      .then( events => {
-        //get rid of nulls
-        _.forEach(events, (event, key) => {
-          if (event) {
-            eventsInfo.push(event.attributes);
-          }
-        });
-
-        res.status(201).send({
-          id_token: tokenController.createToken(req.body, req.body.emailid),
-          events: eventsInfo
-        });
-      })
-      .catch( err => {
-        console.log('Error fetching event', err.message);
-      })
     })
     .catch( err => {
-      res.status(400).send('Error fetching events associated with user.');
+      res.status(400).send('Error querying for all events associated with user.');
     });
 };
 
