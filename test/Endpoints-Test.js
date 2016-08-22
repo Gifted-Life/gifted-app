@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../server/server');
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const jwtKey = process.env.JWT_KEY;
 
 test('Successfully signups user', (t) => {
   request(app)
@@ -16,7 +16,13 @@ test('Successfully signups user', (t) => {
     })
     .expect(201)
     .end( (err, res) => {
-      const token = jwt.verify(res.body.id_token, process.env.JWT_KEY);
+      let token;
+
+      if (jwtKey === undefined) {
+        token = jwt.verify(res.body.id_token, process.env.JWT_SECRET);
+      } else {
+        token = jwt.verify(res.body.id_token, jwtKey);
+      }
 
       t.ok(res.body.id_token, 'jwt should exist');
       t.ok(token.emailid, 'emailid on token should exist');
@@ -26,9 +32,9 @@ test('Successfully signups user', (t) => {
     });
 });
 
-test('Succesfully creates an event', (t) => {
+test('Succesfully creates an event & connects user with event', (t) => {
   request(app)
-    .post('/mlaythe/event')
+    .post('/florian/event')
     .send({
       title: 'Christmas Party!',
       location: 'Mom\'s house',
@@ -37,7 +43,7 @@ test('Succesfully creates an event', (t) => {
       priceMin: 10,
       priceMax: 25,
       isMatched: false,
-      creator: 'test@xyz.com'
+      creator: 'Florian_Sporer@gmail.com'
     })
     .expect(200)
     .end( (err, res) => {
@@ -49,15 +55,16 @@ test('Succesfully creates an event', (t) => {
 //TODO test if user receives events when he/she logins
 test('Successfully logins user and returns all events associated with that user', (t) => {
   request(app)
-    .post('/user/auth')
+    .post('/user/login')
     .send({
-      email: 'test@xyz.com',
-      password: 'fluffyponies96'
+      email: 'Florian_Sporer@gmail.com',
+      password: 'BG8mMrm4S1tUPop'
     })
-    .expect(200)
+    .expect(201)
     .end( (err, res) => {
-      // t.ok(res.body.id_token, 'jwt should exist');
-      t.same(res.status, 200, 'correct status code was sent');
+      t.ok(res.body.id_token, 'jwt should exist');
+      t.ok(res.body.events, 'events should exist');
+      t.same(res.status, 201, 'correct status code was sent');
       t.end();
     });
 });
