@@ -21,9 +21,7 @@ app.post('/user/login', userController.authenticateUser, userEventsController.ge
 
 app.post('/:userid/event', eventController.createEvent, userEventsController.createUserEventConnection); 
 
-app.post('/event/:eventid/invite-user', (req, res) => {
-  res.status(200).send('Successfully invited user to event!');
-});
+app.post('/event/:eventid/invite-user', userEventsController.createUserEventConnection);
 
 app.put('/:userid/:eventid/response', (req, res) => {
   res.status(200).send('Successfully responded to event!');
