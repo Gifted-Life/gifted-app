@@ -6,6 +6,7 @@ const User = require('../Users/userModel.js');
 const tokenController = require('../Utils/tokenController');
 const _ = require('lodash');
 const Event = require('../Events/eventModel.js');
+const emailController = require('../Utils/emailController');
 
 const userEventsController = {};
 
@@ -45,7 +46,15 @@ userEventsController.createUserEventConnection = (req, res, next) => {
           } 
 
           UserEvents.forge({ email: req.body.inviteUser, eventid: req.params.eventid, rsvpStatus: 'pending' }).save().then( result => {
-            res.status(200).send('User successfully invited to event');
+            emailController.sendEmail(req.body.inviteUser, req.params.eventid)
+              .then( (err, info) => {
+                if (err) {
+                  return res.status(400).send('Error sending email to recipient.');
+                }
+                console.log('info', info);
+
+                res.status(200).send('User successfully invited to event');
+              });
           });
         })
     })
