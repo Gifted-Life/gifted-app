@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import EventCard from '../../src/components/EventCard/EventCard';
-import EventCardInfo from '../../src/components/EventCard/EventCard';
+import EventCardInfo from '../../src/components/EventCardInfo/EventCardInfo';
 
 describe('EventCard Component', function() {
   const eventInfo = {
