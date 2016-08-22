@@ -7,7 +7,7 @@ if (dbKey === undefined) {
 
   knex = require('knex')({
     client: 'pg',
-    connection: process.env.TEST_DB,
+    connection: process.env.TEST_DB_LOCAL,
     pool: {
       min: 1,
       max: 7

@@ -28,9 +28,8 @@ eventController.createEvent = (req, res, next) => {
   eventController.createTable()
     .then( () => {
       Event.forge(req.body).save().then( result => {
-        res.status(201).send({
-          eventID: result.attributes.eventID
-        });
+        req.body.eventID = result.attributes.eventID;
+        next();
       });
     })
     .catch( err => {
