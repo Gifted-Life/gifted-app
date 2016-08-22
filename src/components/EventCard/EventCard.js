@@ -5,7 +5,7 @@ const EventCard = ({ eventInfo }) => {
   return (
     <div>
       <img src={eventImg} alt={'I am the event.'} />
-      <EventCard
+      <EventCardInfo
         eventId={eventId}
         eventName={eventName}
         location={location}
