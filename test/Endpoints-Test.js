@@ -52,7 +52,6 @@ test('Succesfully creates an event & connects user with event', (t) => {
     });
 });
 
-//TODO test if user receives events when he/she logins
 test('Successfully logins user and returns all events associated with that user', (t) => {
   request(app)
     .post('/user/login')
