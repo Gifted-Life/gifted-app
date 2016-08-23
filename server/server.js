@@ -7,6 +7,7 @@ const config = require('../webpack.config');
 const userController = require('./Users/userController');
 const eventController = require('./Events/eventController');
 const userEventsController = require('./UserEvents/userEventsController');
+const emailController = require('./Utils/emailController');
 
 const app = express();
 const PORT = 3000;
@@ -21,8 +22,10 @@ app.post('/user/login', userController.authenticateUser, userEventsController.ge
 
 app.post('/:userid/event', eventController.createEvent, userEventsController.createUserEventConnection); 
 
-app.post('/event/:eventid/invite-user', (req, res) => {
-  res.status(200).send('Successfully invited user to event!');
+app.post('/event/:eventid/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
+
+app.post('/email/eventid', (req, res, next) => {
+  res.status(200).send('Successfully responded to event!');
 });
 
 app.put('/:userid/:eventid/response', (req, res) => {
