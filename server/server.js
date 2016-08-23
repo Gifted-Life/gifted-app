@@ -24,6 +24,10 @@ app.post('/:userid/event', eventController.createEvent, userEventsController.cre
 
 app.post('/event/:eventid/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
 
+app.post('/email/eventid', (req, res, next) => {
+  res.status(200).send('Successfully responded to event!');
+});
+
 app.put('/:userid/:eventid/response', (req, res) => {
   res.status(200).send('Successfully responded to event!');
 });
