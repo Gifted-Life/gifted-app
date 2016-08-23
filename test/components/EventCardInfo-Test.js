@@ -2,14 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import EventCardInfo from './../../src/components/EventCardInfo/EventCardInfo';
+import RectangleButton from './../../src/components/RectangleButton/RectangleButton'
 
 describe('EventCardInfo Component ', function() {
-  xit('should be an instance of EventCardInfo', function() {
-    const wrapper = shallow(<EventCardInfo />);
-    const inst = wrapper.instance();
-    expect(inst).to.be.instanceOf(EventCardInfo);
-  })
-
   it ('should have a header with event name', function() {
     const wrapper = shallow(<EventCardInfo eventName={'awesome event'}/>);
     expect(wrapper.find('h3').text()).to.equal('awesome event')
@@ -20,7 +15,7 @@ describe('EventCardInfo Component ', function() {
     expect(wrapper.find('p').length).to.equal(4);
   })
 
-  xit('should have a button component', function() {
+  it('should have a button component', function() {
     const wrapper = shallow(<EventCardInfo />);
     expect(wrapper.find(RectangleButton).length).to.equal(1);
   })

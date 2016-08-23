@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import RectangleButton from './../RectangleButton/RectangleButton';
 
 const EventCardInfo = ({ eventId, eventName, location, timeAndDate, peopleGoing }) => {
   return (
@@ -9,6 +10,11 @@ const EventCardInfo = ({ eventId, eventName, location, timeAndDate, peopleGoing 
       <p>{`${location.address} ${location.city}, ${location.state} ${location.zip}`}</p>
       <p>{timeAndDate}</p>
       <p><span>{peopleGoing}</span> people going</p>
+      <RectangleButton
+        color={'blue'}
+        url={''}
+        text={'More Info'}
+      />
     </div>
   );
 };
