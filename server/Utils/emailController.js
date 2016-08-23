@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport(mg(auth));
 const emailController = {};
 
 emailController.sendEmail = (req, res, next) => {
-  console.log('req', req.body.inviteUser)
   const mailOptions = {
     from: '"Michael Laythe" <gifted@life.com>',
     to: req.body.inviteUser,
