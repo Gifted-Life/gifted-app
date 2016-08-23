@@ -13,12 +13,12 @@ const transporter = nodemailer.createTransport(mg(auth));
 
 const emailController = {};
 
-emailController.sendEmail = (recipient, eventid) => {
+emailController.sendEmail = (req, res, next) => {
   const mailOptions = {
     from: '"Michael Laythe" <gifted@life.com>',
     to: 'mrlaythe24@aol.com',
     subject: `Gifted Invite!`,
-    text:  `You've been invited to an event! Click this link http://localhost:9090/email/eventid=${eventid}`
+    text:  `You've been invited to an event! Click this link http://localhost:9090/email/eventid=${req.body.eventid}`
   };
 
   return transporter.sendMail(mailOptions);
