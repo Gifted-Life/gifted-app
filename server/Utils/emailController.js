@@ -18,10 +18,16 @@ emailController.sendEmail = (req, res, next) => {
     from: '"Michael Laythe" <gifted@life.com>',
     to: 'mrlaythe24@aol.com',
     subject: `Gifted Invite!`,
-    text:  `You've been invited to an event! Click this link http://localhost:9090/email/eventid=${req.body.eventid}`
+    text:  `You've been invited to an event! Click this link for more details http://localhost:9090/email/eventid=${req.params.eventid}`
   };
 
-  return transporter.sendMail(mailOptions);
+  transporter.sendMail(mailOptions)
+    .then( result => {
+      res.status(200).send('Invite sent to user successfully!');
+    })
+    .catch( err => {
+      res.status(400).send('Error sending email to user.');
+    });
 };
 
 module.exports = emailController;
