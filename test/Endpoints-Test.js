@@ -1,10 +1,18 @@
 'use strict';
 const test = require('tape');
-const request = require('supertest');
+const request = require('supertest-as-promised');
 const app = require('../server/server');
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
+const knex = require('./fixtures/DB-fixture').knex;
+const knexCleaner = require('knex-cleaner');
 const jwtKey = process.env.JWT_KEY;
+
+const destroy = t => {
+  knexCleaner.clean(knex).then( () => {
+    t.end(); 
+  });
+};
 
 test('Successfully signups user', (t) => {
   request(app)
@@ -28,69 +36,126 @@ test('Successfully signups user', (t) => {
       t.ok(token.emailid, 'emailid on token should exist');
       t.equal(token.admin, false, 'admin should be set to false on jwt upon signup');
       t.same(res.status, 201, 'correct status code was sent');
-      t.end();
+      destroy(t);
     });
 });
 
 test('Succesfully creates an event & connects user with event', (t) => {
+  const name = faker.name.firstName(),
+        email = faker.internet.email(),
+        password = faker.internet.password();
+
   request(app)
-    .post('/florian/event')
+    .post('/user/signup')
     .send({
-      title: 'Christmas Party!',
-      location: 'Mom\'s house',
-      time: '8:00pst',
-      comments: 'bring love to everything you do',
-      priceMin: 10,
-      priceMax: 25,
-      isMatched: false,
-      creator: 'Florian_Sporer@gmail.com'
+      name,
+      email,
+      password
     })
-    .expect(200)
-    .end( (err, res) => {
+    .expect(201)
+    .then( res => {
+      return request(app)
+        .post(`/${name}/event`)
+        .send({
+          title: 'Christmas Party!',
+          location: 'Mom\'s house',
+          time: '8:00pst',
+          comments: 'bring love to everything you do',
+          priceMin: 10,
+          priceMax: 25,
+          isMatched: false,
+          creator: email
+        })
+        .expect(201);
+    })
+    .then( res => {
       t.ok(res.body.eventID, 'eventID should exist');
-      t.end();
+      destroy(t);
     });
 });
 
 test('Successfully logins user and returns all events associated with that user', (t) => {
+  const name = faker.name.firstName(),
+        email = faker.internet.email(),
+        password = faker.internet.password();
+
   request(app)
-    .post('/user/login')
+    .post('/user/signup')
     .send({
-      email: 'Florian_Sporer@gmail.com',
-      password: 'BG8mMrm4S1tUPop'
+      name,
+      email,
+      password
     })
     .expect(201)
-    .end( (err, res) => {
+    .then( res => {
+      return request(app)
+        .post(`/${name}/event`)
+        .send({
+          title: 'Christmas Party!',
+          location: 'Mom\'s house',
+          time: '8:00pst',
+          comments: 'bring love to everything you do',
+          priceMin: 10,
+          priceMax: 25,
+          isMatched: false,
+          creator: email
+        })
+        .expect(201);
+    })
+    .then( res => {
+      return request(app)
+        .post('/user/login')
+        .send({
+          email,
+          password
+        })
+        .expect(201);
+    })
+    .then( res => {
       t.ok(res.body.id_token, 'jwt should exist');
       t.ok(res.body.events, 'events should exist');
       t.same(res.status, 201, 'correct status code was sent');
-      t.end();
+      destroy(t);
     });
 });
 
 test('Successfully invites user to event', (t) => {
+  const name = faker.name.firstName(),
+        email = faker.internet.email(),
+        password = faker.internet.password();
+
   request(app)
-    .post('/event/1/invite-user')
+    .post('/user/signup')
     .send({
-      inviteUser: faker.internet.email(),
+      name,
+      email,
+      password
     })
-    .expect(200)
-    .end( (err, res) => {
+    .expect(201)
+    .then( res => {
+      return request(app)
+        .post('/event/1/invite-user')
+        .send({
+          inviteUser: email
+        })
+        .expect(200);
+    })
+    .then( res => {
       t.same(res.status, 200, 'correct status code was sent');
-      t.end();
-    });
+      destroy(t);
+    })
 });
 
 test('Successfully submits rsvp response to event', (t) => {
   request(app)
-    .put('/me123/1234/response')
+    .put('/me123/24/response')
     .send({
       response: 'attending'
     })
     .expect(200)
     .end( (err, res) => {
       t.same(res.status, 200, 'correct status code was sent');
-      t.end();
+      destroy(t);
     });
 });
 
@@ -102,6 +167,6 @@ test('Successfully matches group and returns partner match', (t) => {
     .end( (err, res) => {
       t.same(res.status, 200, 'correct status code was sent');
       t.ok(res.body.matchedUser, 'matchedPartner should exist');
-      t.end();
+      destroy(t);
     });
 });
