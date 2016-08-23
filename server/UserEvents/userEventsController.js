@@ -46,17 +46,9 @@ userEventsController.createUserEventConnection = (req, res, next) => {
           } 
 
           UserEvents.forge({ email: req.body.inviteUser, eventid: req.params.eventid, rsvpStatus: 'pending' }).save().then( result => {
-            emailController.sendEmail(req.body.inviteUser, req.params.eventid)
-              .then( (err, info) => {
-                if (err) {
-                  return res.status(400).send('Error sending email to recipient.');
-                }
-                console.log('info', info);
-
-                res.status(200).send('User successfully invited to event');
-              });
+            next();
           });
-        })
+        });
     })
     .catch( err => {
       res.status(400).send('Error inviting user-event connection.');
