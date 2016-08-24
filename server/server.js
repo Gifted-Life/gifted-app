@@ -6,6 +6,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
 const userController = require('./Users/userController');
 const eventController = require('./Events/eventController');
+const matchesController = require('./EventPartnerMatches/eventPartnerMatchesController');
 
 const app = express();
 const PORT = 3000;
@@ -20,7 +21,7 @@ app.post('/user/auth', (req, res) => {
   res.status(200).send('User successfully logged in!');
 });
 
-app.post('/:userid/event', eventController.createEvent); 
+app.post('/:userid/event', eventController.createEvent);
 
 app.post('/event/:eventid/invite-user', (req, res) => {
   res.status(200).send('Successfully invited user to event!');
@@ -34,7 +35,7 @@ app.post('/event/:eventid/match', (req, res) => {
   const matchedUser = {
     matchedUser: 'Erlich Bachman'
   }
-  
+
   res.status(200).send(matchedUser);
 });
 
@@ -46,7 +47,7 @@ app.put('/:userid/:eventid/response', (req, res) => {
   res.status(200).send('Successfully responded to event!');
 });
 
-app.post('/event/:eventid/match', (req, res) => {
+app.post('/event/:eventid/match', matchesController.match, (req, res) => {
   const matchedUser = {
     matchedUser: 'Erlich Bachman',
   };
