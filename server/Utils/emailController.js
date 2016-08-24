@@ -18,8 +18,8 @@ emailController.sendEmail = (req, res, next) => {
     from: '"Michael Laythe" <gifted@life.com>',
     to: req.body.inviteUser,
     subject: `Gifted Invite!`,
-    text:  `You've been invited to an event! Click this link for more details http://localhost:9090/email/eventid=${req.params.eventid}`
-  };
+    text:  `You've been invited to an event! Click this link for more details http://localhost:9090/${req.body.inviteUser}/${req.params.eventid}/response`
+  };                                            
 
   transporter.sendMail(mailOptions)
     .then( result => {
