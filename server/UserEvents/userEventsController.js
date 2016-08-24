@@ -19,7 +19,10 @@ userEventsController.createTable = () => {
 };  
 
 userEventsController.createUserEventConnection = (req, res, next) => {
-  userEventsController.createTable()
+  const isCreatingEvent = req.url.indexOf('invite-user');
+  
+  if (isCreatingEvent === -1) {
+    userEventsController.createTable()
     .then( () => {
       UserEvents.forge({ email: req.body.creator, eventid: req.body.eventID, rsvpStatus: 'attending' }).save().then( result => {
         res.status(201).send({
@@ -30,6 +33,26 @@ userEventsController.createUserEventConnection = (req, res, next) => {
     .catch( err => {
       res.status(400).send('Error adding user-event connection.');
     });
+  } else {
+    userEventsController.createTable()
+    .then( () => {
+      UserEvents
+        .query({where: {email: req.body.inviteUser}, andWhere: {eventid: req.params.eventid}})
+        .fetch()
+        .then( model => {
+          if (model) {
+            return res.status(400).send('User has already been invited to event.');
+          } 
+
+          UserEvents.forge({ email: req.body.inviteUser, eventid: req.params.eventid, rsvpStatus: 'pending' }).save().then( result => {
+            next();
+          });
+        });
+    })
+    .catch( err => {
+      res.status(400).send('Error inviting user-event connection.');
+    });
+  }
 };
 
 userEventsController.getEvents = (req, res, next) => {

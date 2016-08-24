@@ -52,7 +52,6 @@ test('Succesfully creates an event & connects user with event', (t) => {
     });
 });
 
-//TODO test if user receives events when he/she logins
 test('Successfully logins user and returns all events associated with that user', (t) => {
   request(app)
     .post('/user/login')
@@ -71,9 +70,9 @@ test('Successfully logins user and returns all events associated with that user'
 
 test('Successfully invites user to event', (t) => {
   request(app)
-    .post('/event/1234/invite-user')
+    .post('/event/1/invite-user')
     .send({
-      inviteUser: 'erlich',
+      inviteUser: faker.internet.email(),
     })
     .expect(200)
     .end( (err, res) => {
@@ -86,7 +85,7 @@ test('Successfully submits rsvp response to event', (t) => {
   request(app)
     .put('/me123/1234/response')
     .send({
-      response: 'pending'
+      response: 'attending'
     })
     .expect(200)
     .end( (err, res) => {
