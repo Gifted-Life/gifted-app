@@ -64,7 +64,7 @@ userEventsController.getEvents = (req, res, next) => {
     .where('users.email', req.body.email)
     .then( result => {
       return res.status(201).send({
-        id_token: tokenController.createToken(req.body, req.body.emailid),
+        id_token: tokenController.createToken(req.body, req.body.email),
         events: result
       });
     })
