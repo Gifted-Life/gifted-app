@@ -20,24 +20,18 @@ app.post('/user/signup', userController.createUser);
 
 app.post('/user/login', userController.authenticateUser, userEventsController.getEvents);
 
-app.post('/:userid/event', eventController.createEvent, userEventsController.createUserEventConnection); 
+app.post('/:email/event', eventController.createEvent, userEventsController.createUserEventConnection); 
 
-app.post('/event/:eventid/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
+app.post('/event/:eventID/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
 
-app.post('/email/eventid', (req, res, next) => {
-  res.status(200).send('Successfully responded to event!');
-});
+app.put('/:email/:eventID/response', userEventsController.updateUserEventConnection);
 
-app.put('/:userid/:eventid/response', (req, res) => {
-  res.status(200).send('Successfully responded to event!');
-});
-
-app.post('/event/:eventid/match', (req, res) => {
+app.post('/event/:eventID/match', (req, res) => {
   const matchedUser = {
     matchedUser: 'Erlich Bachman'
   }
   
-  res.status(200).send(matchedUser);
+  return res.status(200).send(matchedUser);
 });
 
 app.get('/app.js', (req, res) => {
