@@ -1,13 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import EventCard from './../../src/components/EventCard/EventCard';
+import EventCard from '../../src/components/EventCard/EventCard';
+import EventCardInfo from '../../src/components/EventCardInfo/EventCardInfo';
 
-// describe('EventCard Component Tests', function() {
-//   const wrapper = shallow(<EventCard />);
+describe('EventCard Component', function() {
+  const eventInfo = {
+    eventImg: '',
+    eventName: 'awesome event',
+    location: {},
+    timeAndDate: 'now',
+    peopleGoing: []
+  }
+  const wrapper = shallow(<EventCard eventInfo={eventInfo} />);
 
-//   it('Should be an instance of EventCard', function() {
-//     const inst = wrapper.instance();
-//     expect(inst).to.be.instanceOf(EventCard);
-//   })
-// })
+  it ('should have an img tag', function() {
+    expect(wrapper.find('img').length).to.eql(1);
+  })
+
+  it('should render an EventCardInfo component ', function() {
+    expect(wrapper.find(EventCardInfo).length).to.eql(1);
+  })
+})

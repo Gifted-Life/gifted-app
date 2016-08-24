@@ -6,7 +6,6 @@ const User = require('../Users/userModel.js');
 const tokenController = require('../Utils/tokenController');
 const _ = require('lodash');
 const Event = require('../Events/eventModel.js');
-const emailController = require('../Utils/emailController');
 
 const userEventsController = {};
 
