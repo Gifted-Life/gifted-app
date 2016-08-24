@@ -1,9 +1,18 @@
 import React, { PropTypes } from 'react';
+import EventCardInfo from '../EventCardInfo/EventCardInfo';
 
-const EventCard = props => {
+const EventCard = ({ eventInfo }) => {
+  const { eventImg, eventId, eventName, location, timeAndDate, peopleGoing } = eventInfo;
   return (
     <div>
-
+      <img src={eventImg} alt={'I am the event.'} />
+      <EventCardInfo
+        eventId={eventId}
+        eventName={eventName}
+        location={location}
+        timeAndDate={timeAndDate}
+        peopleGoing={peopleGoing}
+      />
     </div>
   );
 };
