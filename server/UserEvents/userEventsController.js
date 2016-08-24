@@ -13,7 +13,7 @@ userEventsController.createTable = () => {
   return knex.schema.createTableIfNotExists('user-events', userEvent => {
     userEvent.increments();
     userEvent.string('email');
-    userEvent.integer('eventid');
+    userEvent.integer('eventID');
     userEvent.string('rsvpStatus');
   });
 };  
@@ -24,66 +24,66 @@ userEventsController.createUserEventConnection = (req, res, next) => {
   if (isCreatingEvent === -1) {
     userEventsController.createTable()
     .then( () => {
-      UserEvents.forge({ email: req.body.creator, eventid: req.body.eventID, rsvpStatus: 'attending' }).save().then( result => {
+      UserEvents.forge({ email: req.body.creator, eventID: req.body.eventID, rsvpStatus: 'attending' }).save().then( result => {
         res.status(201).send({
           eventID: req.body.eventID
         });
       });
     })
     .catch( err => {
-      res.status(400).send('Error adding user-event connection.');
+      return res.status(400).send('Error adding user-event connection.');
     });
   } else {
     userEventsController.createTable()
     .then( () => {
       UserEvents
-        .query({where: {email: req.body.inviteUser}, andWhere: {eventid: req.params.eventid}})
+        .query({where: {email: req.body.inviteUser}, andWhere: {eventID: req.params.eventID}})
         .fetch()
         .then( model => {
           if (model) {
             return res.status(400).send('User has already been invited to event.');
           } 
-
-          UserEvents.forge({ email: req.body.inviteUser, eventid: req.params.eventid, rsvpStatus: 'pending' }).save().then( result => {
+          
+          UserEvents.forge({ email: req.body.inviteUser, eventID: req.params.eventID, rsvpStatus: 'pending' }).save().then( result => {
             next();
           });
         });
     })
     .catch( err => {
-      res.status(400).send('Error inviting user-event connection.');
+      return res.status(400).send('Error inviting user-event connection.');
     });
   }
 };
 
 userEventsController.getEvents = (req, res, next) => {
   knex
-    .select('title', 'location', 'time', 'comments', 'priceMin', 'priceMax', 'creator', 'rsvpStatus')
+    .select()
     .from('events')
-    .innerJoin('user-events', 'user-events.eventid', 'events.eventID')
+    .innerJoin('user-events', 'user-events.eventID', 'events.eventID')
     .innerJoin('users', 'user-events.email', 'users.email')
     .where('users.email', req.body.email)
     .then( result => {
-      res.status(201).send({
+      return res.status(201).send({
         id_token: tokenController.createToken(req.body, req.body.emailid),
         events: result
       });
     })
     .catch( err => {
-      res.status(400).send('Error querying for all events associated with user.');
+      return res.status(400).send('Error querying for all events associated with user.');
     });
 };
 
 userEventsController.updateUserEventConnection = (req, res, next) => {
   knex('user-events')
-    .where('user-events.email', req.params.email).andWhere('user-events.eventid', '=', req.params.eventid)
+    .where('user-events.email', req.params.email).andWhere('user-events.eventID', '=', req.params.eventID)
     .update({
       rsvpStatus: req.body.response
     })
     .then( result => {
-      res.status(200).send('Response for event was successfully saved!');
+      return res.status(200).send('Response for event was successfully saved!');
     })
     .catch( err => {
-      res.status(400).send('Error responding to event invite.');
+      return res.status(400).send('Error responding to event invite.');
     });
 };
 

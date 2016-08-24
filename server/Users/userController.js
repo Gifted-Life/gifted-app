@@ -33,17 +33,17 @@ userController.authenticateUser = (req, res, next) => {
         req.body.emailid = model.attributes.emailid;
         next();
       } else {
-        res.status(401).send('Password does not match our records.');
+        return res.status(401).send('Password does not match our records.');
       }
     })
     .catch( err => {
-      res.status(400).send('Error authenticating user.');
+      return res.status(400).send('Error authenticating user.');
     });
 };
 
 userController.createUser = (req, res, next) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
-    res.status(401).send('Missing name, email, or password!');
+    return res.status(401).send('Missing name, email, or password!');
   }
 
   userController.createTable()
@@ -60,14 +60,14 @@ userController.createUser = (req, res, next) => {
           userController.encryptPassword(req.body);
           
           User.forge(req.body).save().then( result => {
-            res.status(201).send({
+            return res.status(201).send({
               id_token: tokenController.createToken(result.attributes, req.body.email)
             });
           });
         });
     })
     .catch( err => {
-      res.status(400).send('Error adding user to database');
+      return res.status(400).send('Error adding user to database');
     });
 };
 

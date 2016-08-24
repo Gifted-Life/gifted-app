@@ -18,18 +18,18 @@ emailController.sendEmail = (req, res, next) => {
     from: '"Michael Laythe" <gifted@life.com>',
     to: req.body.inviteUser,
     subject: `Gifted Invite!`,
-    text:  `You've been invited to an event! Click this link for more details http://localhost:9090/${req.body.inviteUser}/${req.params.eventid}/response`
+    text:  `You've been invited to an event! Click this link for more details http://localhost:9090/${req.body.inviteUser}/${req.params.eventID}/response`
   };                                            
 
   transporter.sendMail(mailOptions)
     .then( result => {
-      res.status(200).send('Invite sent to user successfully!');
+      return res.status(200).send('Invite sent to user successfully!');
     })
     .catch( err => {
       if (process.env.NODE_ENV === 'test') {
-        res.status(200).send('Invite sent to user successfully.');
+        return res.status(200).send('Invite sent to user successfully.');
       } else {
-        res.status(400).send('Error sending email to user.');
+        return res.status(400).send('Error sending email to user.');
       }
     });
 };
