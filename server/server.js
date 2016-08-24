@@ -20,17 +20,11 @@ app.post('/user/signup', userController.createUser);
 
 app.post('/user/login', userController.authenticateUser, userEventsController.getEvents);
 
-app.post('/:userid/event', eventController.createEvent, userEventsController.createUserEventConnection); 
+app.post('/:email/event', eventController.createEvent, userEventsController.createUserEventConnection); 
 
 app.post('/event/:eventid/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
 
-app.post('/email/eventid', (req, res, next) => {
-  res.status(200).send('Successfully responded to event!');
-});
-
-app.put('/:userid/:eventid/response', (req, res) => {
-  res.status(200).send('Successfully responded to event!');
-});
+app.put('/:email/:eventid/response', userEventsController.updateUserEventConnection);
 
 app.post('/event/:eventid/match', (req, res) => {
   const matchedUser = {
