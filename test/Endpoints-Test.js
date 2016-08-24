@@ -58,8 +58,17 @@ test('Succesfully creates an event & connects user with event', (t) => {
         .post(`/${email}/event`)
         .send({
           title: 'Christmas Party!',
-          location: 'Mom\'s house',
-          time: '8:00pst',
+          location: {
+            name: 'Mom\'s house',
+            address: '123 Shoe Lane',
+            city: 'Riverside',
+            state: 'CA',
+            zip: '92507'
+          },
+          time: {
+            start: new Date("August 28, 2016 11:00:00"),
+            end: new Date("August 28, 2016 1:00:00")
+          },
           comments: 'bring love to everything you do',
           priceMin: 10,
           priceMax: 25,
@@ -92,8 +101,17 @@ test('Successfully logins user and returns all events associated with that user'
         .post(`/${email}/event`)
         .send({
           title: 'Christmas Party!',
-          location: 'Mom\'s house',
-          time: '8:00pst',
+          location: {
+            name: 'Mom\'s house',
+            address: '123 Shoe Lane',
+            city: 'Riverside',
+            state: 'CA',
+            zip: '92507'
+          },
+          time: {
+            start: new Date("August 28, 2016 11:00:00"),
+            end: new Date("August 28, 2016 1:00:00")
+          },
           comments: 'bring love to everything you do',
           priceMin: 10,
           priceMax: 25,
@@ -120,23 +138,62 @@ test('Successfully logins user and returns all events associated with that user'
 });
 
 test('Successfully invites user to event', (t) => {
-  const name = faker.name.firstName(),
-        email = faker.internet.email(),
-        password = faker.internet.password();
+  const user1 = {
+    name: faker.name.firstName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  };
+
+  const user2 = {
+    name: faker.name.firstName(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  };
+        
+  let eventID;
 
   request(app)
     .post('/user/signup')
-    .send({
-      name,
-      email,
-      password
-    })
+    .send(user1)
     .expect(201)
     .then( res => {
       return request(app)
-        .post('/event/1/invite-user')
+        .post('/user/signup')
+        .send(user2)
+        .expect(201)
+    })
+    .then( res => {
+      return request(app)
+        .post(`/${user1.email}/event`)
         .send({
-          inviteUser: email
+          title: 'Christmas Party!',
+          location: {
+            name: 'Mom\'s house',
+            address: '123 Shoe Lane',
+            city: 'Riverside',
+            state: 'CA',
+            zip: '92507'
+          },
+          time: {
+            start: new Date("August 28, 2016 11:00:00"),
+            end: new Date("August 28, 2016 1:00:00")
+          },
+          comments: 'bring love to everything you do',
+          priceMin: 10,
+          priceMax: 25,
+          isMatched: false,
+          creator: user1.email
+        })
+        .expect(201)
+        .then( res => {
+          eventID = res.body.eventID;
+        });
+    })
+    .then( res => {
+      return request(app)
+        .post(`/event/${eventID}/invite-user`)
+        .send({
+          inviteUser: user2.email
         })
         .expect(200);
     })
@@ -160,7 +217,7 @@ test('Successfully submits rsvp response to event', (t) => {
   };
 
   let token,
-      eventid;
+      eventID;
 
   request(app)
     .post('/user/signup')
@@ -180,8 +237,17 @@ test('Successfully submits rsvp response to event', (t) => {
         .post(`/${user1.email}/event`)
         .send({
           title: 'Christmas Party!',
-          location: 'Mom\'s house',
-          time: '8:00pst',
+          location: {
+            name: 'Mom\'s house',
+            address: '123 Shoe Lane',
+            city: 'Riverside',
+            state: 'CA',
+            zip: '92507'
+          },
+          time: {
+            start: new Date("August 28, 2016 11:00:00"),
+            end: new Date("August 28, 2016 1:00:00")
+          },
           comments: 'bring love to everything you do',
           priceMin: 10,
           priceMax: 25,
@@ -190,12 +256,12 @@ test('Successfully submits rsvp response to event', (t) => {
         })
         .expect(201)
         .then( res => {
-          eventid = res.body.eventID;
+          eventID = res.body.eventID;
         });
     })
     .then( res => {
       return request(app)
-        .post(`/event/${eventid}/invite-user`)
+        .post(`/event/${eventID}/invite-user`)
         .send({
           inviteUser: user2.email
         })
@@ -203,7 +269,7 @@ test('Successfully submits rsvp response to event', (t) => {
     })
     .then( res => {
       return request(app)
-        .put(`/${user2.email}/${eventid}/response`)
+        .put(`/${user2.email}/${eventID}/response`)
         .send({
           response: 'attending'
         })
