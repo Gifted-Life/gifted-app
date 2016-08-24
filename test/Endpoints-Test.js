@@ -33,7 +33,7 @@ test('Successfully signups user', (t) => {
       }
 
       t.ok(res.body.id_token, 'jwt should exist');
-      t.ok(token.email, 'emailid on token should exist');
+      t.ok(token.email, 'email on token should exist');
       t.equal(token.admin, false, 'admin should be set to false on jwt upon signup');
       t.same(res.status, 201, 'correct status code was sent');
       destroy(t);
