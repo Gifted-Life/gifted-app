@@ -74,4 +74,18 @@ userEventsController.getEvents = (req, res, next) => {
     });
 };
 
+userEventsController.updateUserEventConnection = (req, res, next) => {
+  knex('user-events')
+    .where('user-events.email', req.params.email).andWhere('user-events.eventid', '=', req.params.eventid)
+    .update({
+      rsvpStatus: req.body.response
+    })
+    .then( result => {
+      res.status(200).send('Response for event was successfully saved!');
+    })
+    .catch( err => {
+      res.status(400).send('Error responding to event invite.');
+    });
+};
+
 module.exports = userEventsController;
