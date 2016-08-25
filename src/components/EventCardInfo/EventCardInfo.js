@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import RectangleButton from './../RectangleButton/RectangleButton';
 
-const EventCardInfo = ({ eventId, eventName, location, timeAndDate, peopleGoing }) => {
+const EventCardInfo = ({ eventID, eventName, location, timeAndDate, peopleGoing }) => {
   return (
     <div>
       <h3>{eventName}</h3>
@@ -20,7 +20,7 @@ const EventCardInfo = ({ eventId, eventName, location, timeAndDate, peopleGoing 
 };
 
 EventCardInfo.propTypes = {
-  eventId: PropTypes.string,
+  eventID: PropTypes.string,
   eventName: PropTypes.string,
   location: PropTypes.object,
   timeAndDate: PropTypes.string,
