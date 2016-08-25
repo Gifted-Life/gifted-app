@@ -16,7 +16,7 @@ if (jwtKey === undefined) {
     secret: process.env.JWT_SECRET,
     credentialsRequired: true,
     getToken: req => {
-      if (!req.body.id_token) return res.status(401).send('')
+      if (!req.body.id_token) return res.status(401).send('Missing credentials!')
       return req.body.id_token
     }
   });
@@ -25,7 +25,7 @@ if (jwtKey === undefined) {
     secret: jwtKey,
     credentialsRequired: true,
     getToken: req => {
-      if (!req.body.id_token) return res.status(401).send('')
+      if (!req.body.id_token) return res.status(401).send('Missing credentials!')
       return req.body.id_token
     }
   });
