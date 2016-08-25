@@ -24,8 +24,8 @@ userEventsController.createUserEventConnection = (req, res, next) => {
   if (isCreatingEvent === -1) {
     userEventsController.createTable()
     .then( () => {
-      UserEvents.forge({ email: req.body.creator, eventID: req.body.eventID, rsvpStatus: 'attending' }).save().then( result => {
-        res.status(201).send({
+      UserEvents.forge({ email: req.user.email, eventID: req.body.eventID, rsvpStatus: 'attending' }).save().then( result => {
+        return res.status(201).send({
           eventID: req.body.eventID
         });
       });

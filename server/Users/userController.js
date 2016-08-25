@@ -28,7 +28,7 @@ userController.authenticateUser = (req, res, next) => {
       }
 
       const isValidUser = userController.decryptPassword(req.body, model.attributes.password, res);
-
+      
       return isValidUser ? next() : res.status(401).send('Password does not match our records.');
     })
     .catch( err => {
