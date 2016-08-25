@@ -6,15 +6,21 @@ const headerStyle = {
   backgroundColor: randomColor,
 };
 
-const Header = props =>
-(
-  <div style={headerStyle}>
-    <Logo imgSrc={props.imgSrc} />
-  </div>
-);
+const Header = headerInfo => {
+  const { logoSrc } = headerInfo;
+  return (
+    <div style={headerStyle}>
+      <Logo logoSrc={logoSrc} />
+    </div>
+  );
+};
 
 Header.propTypes = {
-  imgSrc: PropTypes.string,
+  logoSrc: PropTypes.string,
+};
+
+Header.defaultProps = {
+  logoSrc: './../resources/gift.svg',
 };
 
 export default Header;
