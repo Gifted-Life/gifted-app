@@ -29,7 +29,7 @@ app.post('/email/eventid', (req, res, next) => {
   res.status(200).send('Successfully responded to event!');
 });
 
-app.put('/:userid/:eventid/response', (req, res) => {
+app.post('/email/eventid', (req, res, next) => {
   res.status(200).send('Successfully responded to event!');
 });
 
