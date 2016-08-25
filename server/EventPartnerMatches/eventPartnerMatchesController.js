@@ -2,6 +2,7 @@
 const bookshelf = require('../../test/fixtures/DB-fixture').bookshelf;
 const knex = require('../../test/fixtures/DB-fixture').knex;
 const EventPartnerMatches = require('./eventPartnerMatchesModel');
+const UserEvents = require('../UserEvents/userEventsModel');
 
 const eventPartnerMatches = {};
 
@@ -14,16 +15,56 @@ eventPartnerMatches.createTable = () => {
   });
 };
 
-eventPartnerMatches.createEventPartnerMatches = () => {
+eventPartnerMatches.createEventPartnerMatches = (eventID, orderedMatches) => {
   eventPartnerMatches.createTable()
     .then( () => {
-      EventPartnerMatches.forge({ eventID: 1234, partner1: 'me123', partner2: 'you123' }).save().then( result => {
-        console.log('successfully added event partner match', result);
-      });
+      orderedMatches.forEach((person, i) => {
+        EventPartnerMatches.forge({
+          eventID: eventID,
+          partner1: person,
+          partner2: orderedMatches[i+1] || orderedMatches[0],
+        }).save().then( result => {
+          console.log('successfully added event partner match', result);
+        });
+      })
     })
     .catch( err => {
       res.status(400).send('Error matching users for event');
     });
 };
+
+eventPartnerMatches.createMatches = (req, res, next) => {
+  console.log('req.params',req.params);
+  UserEvents
+    .query({where: {
+      eventid: req.params.eventid,
+      rsvpStatus: 'attending',
+    }})
+    .fetchAll()
+    .then((collection) => {
+      return collection.map(function(item) {
+        return item.attributes.email;
+      });
+    })
+    .then((attending) => {
+      eventPartnerMatches.createEventPartnerMatches(req.params.eventid, eventPartnerMatches.shuffle(attending));
+    })
+    next();
+}
+
+eventPartnerMatches.shuffle = (arr) => {
+  var partition = arr.length, temp, chosen;
+  // While there remain elements to shuffle…
+  while (partition) {
+    // Pick a remaining element…
+    chosen = Math.floor(Math.random() * partition);
+
+    // And swap it with the current element.
+    temp = arr[--partition];
+    arr[partition] = arr[chosen];
+    arr[chosen] = temp;
+  }
+  return arr;
+}
 
 module.exports = eventPartnerMatches;
