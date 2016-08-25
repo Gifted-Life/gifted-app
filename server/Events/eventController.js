@@ -26,10 +26,10 @@ eventController.createTable = () => {
 
 eventController.createEvent = (req, res, next) => {
   if (!req.body.title || !req.body.location || !req.body.time ||
-      !req.body.comments || !req.body.priceMin || !req.body.priceMax || !req.body.creator) {
+      !req.body.comments || !req.body.priceMin || !req.body.priceMax || !req.user) {
     return res.status(401).send('Missing one or more event fields');
   }
-
+  
   const event = {
     title: req.body.title,
     name: req.body.location.name,
@@ -43,7 +43,7 @@ eventController.createEvent = (req, res, next) => {
     priceMin: req.body.priceMin,
     priceMax: req.body.priceMax,
     isMatched: req.body.isMatched,
-    creator: req.body.creator
+    creator: req.user.email
   };
 
   eventController.createTable()

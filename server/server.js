@@ -5,9 +5,7 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
 const userController = require('./Users/userController');
-const eventController = require('./Events/eventController');
 const userEventsController = require('./UserEvents/userEventsController');
-const emailController = require('./Utils/emailController');
 
 const app = express();
 const PORT = 3000;
@@ -16,23 +14,11 @@ const DEVPORT = 9090;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './../')));
 
+app.use(require('./authRoutes'));
+
 app.post('/user/signup', userController.createUser);
 
 app.post('/user/login', userController.authenticateUser, userEventsController.getEvents);
-
-app.post('/:email/event', eventController.createEvent, userEventsController.createUserEventConnection); 
-
-app.post('/event/:eventID/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
-
-app.put('/:email/:eventID/response', userEventsController.updateUserEventConnection);
-
-app.post('/event/:eventID/match', (req, res) => {
-  const matchedUser = {
-    matchedUser: 'Erlich Bachman'
-  }
-  
-  return res.status(200).send(matchedUser);
-});
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
