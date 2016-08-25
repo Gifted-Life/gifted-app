@@ -58,7 +58,7 @@ userController.createUser = (req, res, next) => {
 
           userController.createEmailID(req.body);
           userController.encryptPassword(req.body);
-          
+
           User.forge(req.body).save().then( result => {
             res.status(201).send({
               id_token: tokenController.createToken(result.attributes, req.body.emailid)

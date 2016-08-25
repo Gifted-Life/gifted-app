@@ -33,12 +33,13 @@ app.post('/email/eventid', (req, res, next) => {
   res.status(200).send('Successfully responded to event!');
 });
 
-// app.post('/event/:eventid/match', matchesController.match, (req, res) => {
-//   const matchedUser = {
-//     matchedUser: 'Erlich Bachman',
-//   };
-//   res.status(200).send(matchedUser);
-// });
+app.post('/event/:eventid/match', matchesController.createMatches, (req, res) => {
+  // const matchedUser = {
+  //   matchedUser: 'Erlich Bachman',
+  // };
+  // res.status(200).send(matchedUser);
+  res.end();
+});
 
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
