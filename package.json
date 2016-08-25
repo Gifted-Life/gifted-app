@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "webpack --progress --colors --config  webpack.production.config.js --watch",
-    "server-test": "node test/Endpoints-Test.js | tap-spec ",
+    "server-test": "BABEL_DISABLE_CACHE=1 export NODE_ENV=test && node test/Endpoints-Test.js | tap-spec ",
     "start": "nodemon server/start",
     "production": "webpack -p",
     "test": "BABEL_DISABLE_CACHE=1 NODE_ENV=test mocha test/.setup.js test/**/*-Test.js && npm run server-test"
@@ -25,6 +25,8 @@
     "jsonwebtoken": "^7.1.9",
     "knex": "^0.11.10",
     "lodash": "^4.15.0",
+    "nodemailer": "^2.5.0",
+    "nodemailer-mailgun-transport": "^1.2.1",
     "pg": "^6.1.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
