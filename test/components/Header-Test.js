@@ -6,22 +6,13 @@ import Logo from './../../src/components/Logo/Logo';
 
 describe('Header Component ', () => {
 
-  it('should be an instance of Header', () => {
-    const wrapper = mount(<Header />);
-    const inst = wrapper.instance();
-    expect(inst).to.be.instanceOf(Header);
-  });
-
   it('renders one <Logo /> component', () => {
     const wrapper = shallow(<Header />);
     expect(wrapper.find(Logo)).to.have.length(1);
   });
 
-  it('allows us to set props', () => {
-    const wrapper = mount(<Header bar="baz" />);
-    expect(wrapper.props().bar).to.equal("baz");
-    wrapper.setProps({ bar: "foo" });
-    expect(wrapper.props().bar).to.equal("foo");
+  it('switches to hamburger when size shrinks', () => {
+    expect(false).to.eql(true);
   });
 });
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Logo from './../Logo/Logo';
 
-const randomColor = `#${Math.ranom().toString(16).substr(-6)}`;
+const randomColor = `#${Math.random().toString(16).substr(-6)}`;
 const headerStyle = {
   backgroundColor: randomColor,
 };
