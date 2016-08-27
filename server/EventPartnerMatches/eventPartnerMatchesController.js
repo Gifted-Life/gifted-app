@@ -29,7 +29,7 @@ eventPartnerMatches.createEventPartnerMatches = (eventID, orderedMatches) => {
       })
     })
     .catch( err => {
-      res.status(400).send('Error matching users for event');
+      return res.status(400).send('Error matching users for event');
     });
 };
 

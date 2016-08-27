@@ -12,7 +12,7 @@ userController.createTable = () => {
   return knex.schema.createTableIfNotExists('users', user => {
     user.increments();
     user.string('name');
-    user.string('emailid');
+    user.string('emailID');
     user.string('email');
     user.string('password');
   });
@@ -28,22 +28,17 @@ userController.authenticateUser = (req, res, next) => {
       }
 
       const isValidUser = userController.decryptPassword(req.body, model.attributes.password, res);
-
-      if (isValidUser) {
-        req.body.emailid = model.attributes.emailid;
-        next();
-      } else {
-        res.status(401).send('Password does not match our records.');
-      }
+      
+      return isValidUser ? next() : res.status(401).send('Password does not match our records.');
     })
     .catch( err => {
-      res.status(400).send('Error authenticating user.');
+      return res.status(400).send('Error authenticating user.');
     });
 };
 
 userController.createUser = (req, res, next) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
-    res.status(401).send('Missing name, email, or password!');
+    return res.status(401).send('Missing name, email, or password!');
   }
 
   userController.createTable()
@@ -60,22 +55,22 @@ userController.createUser = (req, res, next) => {
           userController.encryptPassword(req.body);
 
           User.forge(req.body).save().then( result => {
-            res.status(201).send({
-              id_token: tokenController.createToken(result.attributes, req.body.emailid)
+            return res.status(201).send({
+              id_token: tokenController.createToken(result.attributes, req.body.email)
             });
           });
         });
     })
     .catch( err => {
-      res.status(400).send('Error adding user to database');
+      return res.status(400).send('Error adding user to database');
     });
 };
 
 userController.createEmailID = user => {
-  let id = (Math.random().toString(36) + '00000000000000000').slice(2, 5 + 2);
+  let ID = (Math.random().toString(36) + '00000000000000000').slice(2, 5 + 2);
   let indexOfAt = user.email.indexOf('@');
 
-  user.emailid = user.email.slice(0, indexOfAt) + id;
+  user.emailID = user.email.slice(0, indexOfAt) + ID;
 };
 
 userController.encryptPassword = user => {
