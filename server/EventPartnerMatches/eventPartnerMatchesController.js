@@ -3,6 +3,7 @@ const bookshelf = require('../../test/fixtures/DB-fixture').bookshelf;
 const knex = require('../../test/fixtures/DB-fixture').knex;
 const EventPartnerMatches = require('./eventPartnerMatchesModel');
 const UserEvents = require('../UserEvents/userEventsModel');
+const shuffle = require('../Utils/shuffle');
 
 const eventPartnerMatches = {};
 
@@ -15,56 +16,52 @@ eventPartnerMatches.createTable = () => {
   });
 };
 
-eventPartnerMatches.createEventPartnerMatches = (eventID, orderedMatches) => {
+eventPartnerMatches.createMatches = (req, res) => {
+  console.log('req.params',req.params);
+  UserEvents
+  .query({where: {
+    eventid: req.params.eventID,
+    rsvpStatus: 'attending',
+  }})
+  .fetchAll()
+  .then((collection) => {
+    return collection.map(function(item) {
+      return item.attributes.email;
+    });
+  })
+  .then((attending) => {
+    eventPartnerMatches.createEventPartnerMatches(req, res, shuffle(attending));
+  })
+}
+
+eventPartnerMatches.createEventPartnerMatches = (req, res, orderedMatches) => {
   eventPartnerMatches.createTable()
     .then( () => {
-      orderedMatches.forEach((person, i) => {
-        EventPartnerMatches.forge({
-          eventID: eventID,
-          partner1: person,
-          partner2: orderedMatches[i+1] || orderedMatches[0],
-        }).save().then( result => {
-          console.log('successfully added event partner match', result);
+      const toSend = [];
+      var results = orderedMatches.map( (partner1, i) => {
+        return new Promise( resolve => {
+          EventPartnerMatches.forge({
+            eventID: req.params.eventID,
+            partner1: partner1,
+            partner2: orderedMatches[i + 1] || orderedMatches[0],
+          }).save().then( result => {
+            resolve(toSend.push(result));
+          })
         });
       })
+
+      Promise.all(results).then(() => {
+        res.status(200);
+        res.writeHead(200, {'Content-Type': 'application/json' });
+        res.write(JSON.stringify({matches: toSend}));
+        res.end();
+      });
     })
     .catch( err => {
+      console.log('error reached', err);
       return res.status(400).send('Error matching users for event');
     });
 };
 
-eventPartnerMatches.createMatches = (req, res, next) => {
-  console.log('req.params',req.params);
-  UserEvents
-    .query({where: {
-      eventid: req.params.eventid,
-      rsvpStatus: 'attending',
-    }})
-    .fetchAll()
-    .then((collection) => {
-      return collection.map(function(item) {
-        return item.attributes.email;
-      });
-    })
-    .then((attending) => {
-      eventPartnerMatches.createEventPartnerMatches(req.params.eventid, eventPartnerMatches.shuffle(attending));
-    })
-    next();
-}
-
-eventPartnerMatches.shuffle = (arr) => {
-  var partition = arr.length, temp, chosen;
-  // While there remain elements to shuffle…
-  while (partition) {
-    // Pick a remaining element…
-    chosen = Math.floor(Math.random() * partition);
-
-    // And swap it with the current element.
-    temp = arr[--partition];
-    arr[partition] = arr[chosen];
-    arr[chosen] = temp;
-  }
-  return arr;
-}
 
 module.exports = eventPartnerMatches;
