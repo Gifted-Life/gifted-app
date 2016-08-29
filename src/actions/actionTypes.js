@@ -1,0 +1,4 @@
+// Login
+export const EMAIL_ADDRESS_INPUT = 'EMAIL_ADDRESS_INPUT';
+export const PASSWORD_INPUT = 'PASSWORD_INPUT';
+
