@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const PasswordInput = ({ inputType, inputID, labelText, initialValue, handleChangeFn }) => {
+const FormInput = ({ inputType, inputID, labelText, initialValue, handleChangeFn }) => {
   return (
     <div>
       <label htmlFor={inputID}>{labelText}</label>
@@ -11,7 +11,7 @@ const PasswordInput = ({ inputType, inputID, labelText, initialValue, handleChan
   );
 };
 
-PasswordInput.propTypes = {
+FormInput.propTypes = {
   inputType: PropTypes.string.isRequired,
   inputID: PropTypes.string.isRequired,
   handleChangeFn: PropTypes.func.isRequired,
@@ -19,8 +19,4 @@ PasswordInput.propTypes = {
   initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-PasswordInput.defaultProps = {
-  initialValue: '',
-};
-
-export default PasswordInput;
+export default FormInput;
