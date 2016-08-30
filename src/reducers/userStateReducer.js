@@ -1,0 +1,20 @@
+import * as types from './../actions/actionTypes.js';
+
+const initialState = {
+  email: '',
+  password: '',
+  correctLoginEmailAndPw: true,
+};
+
+function userStateReducer(state = initialState, action) {
+  switch (action.type) {
+    case types.EMAIL_ADDRESS_INPUT:
+      return Object.assign({}, state, { email: action.emailInput });
+    case types.PASSWORD_INPUT:
+      return Object.assign({}, state, { password: action.passwordInput });
+    default:
+      return state;
+  }
+}
+
+export default userStateReducer;
