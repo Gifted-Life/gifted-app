@@ -30,15 +30,15 @@ describe('Form Input Component', () => {
   });
 
   it('should have an input type equal to the inputType prop', () => {
-    expect(wrapper.find('input [type="password"]')).to.have.length(1);
+    expect(wrapper.find(`input [type="${inputType}"]`)).to.have.length(1);
   });
 
   it('should have an input id equal to the inputID prop', () => {
-    expect(wrapper.find('input #loginPassword')).to.have.length(1);
+    expect(wrapper.find(`input #${inputID}`)).to.have.length(1);
   });
 
   it('should have a label with a for attribute equal to the inputID prop', () => {
-    expect(wrapper.find('label [htmlFor="loginPassword"]')).to.have.length(1);
+    expect(wrapper.find(`label [htmlFor="${inputID}"]`)).to.have.length(1);
   });
 
   it('should invoke the handleChangeFn on input change', () => {
