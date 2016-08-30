@@ -99,6 +99,7 @@ test('Successfully submits rsvp response to event', (t) => {
 test('Successfully matches group and returns partner match', (t) => {
 
   function allUnique(obj1, obj2, key) {
+    if (!obj1 || !Object.keys(obj1).length) return false;
 
     if (Array.isArray(obj1)) {
       obj1.forEach( item => {
@@ -119,7 +120,7 @@ test('Successfully matches group and returns partner match', (t) => {
     .expect(200)
     .end( (err, res) => {
       t.same(res.status, 200, 'correct status code was sent');
-      t.ok(res.body.matches, 'matches should exist');
+      t.ok(res.body.matches && res.body.matches.length, 'matches should exist');
 
       var partner1 = {};
       var partner2 = {};
