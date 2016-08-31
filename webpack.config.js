@@ -30,7 +30,7 @@ module.exports = {
       loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
     },
     {
-      test: /\.sass$|\.scss/,
+      test: /\.sass$|\.scss$/,
       loaders: ['sass-loader', 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'],
     },
     ],
