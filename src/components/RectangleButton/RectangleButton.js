@@ -1,17 +1,13 @@
-import style from './RectangleButton.css';
+import style from './RectangleButton.scss';
 import React, { PropTypes } from 'react';
 
 // types: submit, next, ???
 
-const RectangleButton = ({ color, url, width, text, handleClick, type }) => {
-  const buttonStyle = {
-    backgroundColor: color,
-    width,
-  };
+const RectangleButton = ({ url, width, text, handleClick, type }) => {
 
   return (
     <a href={url}>
-      <button style={buttonStyle} onClick={handleClick}>
+      <button className={style[type]} onClick={handleClick}>
         {text}
       </button>
     </a>
@@ -19,7 +15,7 @@ const RectangleButton = ({ color, url, width, text, handleClick, type }) => {
 };
 
 RectangleButton.propTypes = {
-  color: PropTypes.string,
+  type: PropTypes.string,
   url: PropTypes.string.isRequired,
   width: PropTypes.string,
   text: PropTypes.string.isRequired,
@@ -27,7 +23,7 @@ RectangleButton.propTypes = {
 };
 
 RectangleButton.defaultProps = {
-  color: 'green',
+  type: 'default',
   url: '',
   width: '50px',
   handleClick: () => console.log('placeholder'),
