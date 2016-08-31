@@ -1,3 +1,4 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -6,11 +7,6 @@ const WebpackDevServer = require('webpack-dev-server');
 const config = require('../webpack.config');
 const userController = require('./Users/userController');
 const userEventsController = require('./UserEvents/userEventsController');
-// <<<<<<< HEAD
-// const emailController = require('./Utils/emailController');
-// const matchesController = require('./EventPartnerMatches/eventPartnerMatchesController');
-// =======
-// >>>>>>> d3710fc5d7ee89add2f8812631bec8b76c9ccfb7
 
 const app = express();
 const PORT = 3000;
@@ -25,29 +21,6 @@ app.post('/user/signup', userController.createUser);
 
 app.post('/user/login', userController.authenticateUser, userEventsController.getEvents);
 
-// <<<<<<< HEAD
-// app.post('/:userid/event', eventController.createEvent, userEventsController.createUserEventConnection);
-//
-// app.post('/event/:eventid/invite-user', userEventsController.createUserEventConnection, emailController.sendEmail);
-//
-// app.post('/email/eventid', (req, res, next) => {
-//   res.status(200).send('Successfully responded to event!');
-// });
-//
-// app.post('/email/eventid', (req, res, next) => {
-//   res.status(200).send('Successfully responded to event!');
-// });
-//
-// app.post('/event/:eventid/match', matchesController.createMatches, (req, res) => {
-//   // const matchedUser = {
-//   //   matchedUser: 'Erlich Bachman',
-//   // };
-//   // res.status(200).send(matchedUser);
-//   res.end();
-// });
-//
-// =======
-// >>>>>>> d3710fc5d7ee89add2f8812631bec8b76c9ccfb7
 app.get('/app.js', (req, res) => {
   if (process.env.PRODUCTION) {
     res.sendFile(path.join(__dirname, '/src/bundle/app.js'));
