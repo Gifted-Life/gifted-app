@@ -6,8 +6,9 @@ const MatchInfo = ({ matchName, matchID, matchPicture }) => {
     <div>
       <h4>you got matched with... </h4>
       <img src={matchPicture} />
+      <p>{matchName}</p>
       <RectangleButton
-        color={'green'}
+        type={'default'}
         url={matchID}
         text={`View ${matchName}'s wishlist`}
       />

@@ -1,4 +1,4 @@
-shuffle = (arr) => {
+const shuffle = (arr) => {
   var partition = arr.length, temp, chosen;
   // While there remain elements to shuffle…
   while (partition) {
