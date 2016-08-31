@@ -1,4 +1,3 @@
-
 'use strict';
 const test = require('tape');
 const request = require('supertest-as-promised');
@@ -7,12 +6,11 @@ const faker = require('faker');
 const jwt = require('jsonwebtoken');
 const knex = require('./fixtures/DB-fixture').knex;
 const knexCleaner = require('knex-cleaner');
-const bookshelf = require('./fixtures/DB-fixture').bookshelf;
 const jwtKey = process.env.JWT_KEY;
 
 const destroy = t => {
   knexCleaner.clean(knex).then( () => {
-    t.end();
+    t.end(); 
   });
 };
 
@@ -46,7 +44,7 @@ test('Succesfully creates an event & connects user with event', (t) => {
   const name = faker.name.firstName(),
         email = faker.internet.email(),
         password = faker.internet.password();
-
+  
   let token;
 
   request(app)
@@ -93,7 +91,7 @@ test('Successfully logins user and returns all events associated with that user'
   const name = faker.name.firstName(),
         email = faker.internet.email(),
         password = faker.internet.password();
-
+  
   let token;
 
   request(app)
@@ -159,7 +157,7 @@ test('Successfully invites user to event', (t) => {
     email: faker.internet.email(),
     password: faker.internet.password()
   };
-
+        
   let eventID,
       token,
       token2;
@@ -177,7 +175,7 @@ test('Successfully invites user to event', (t) => {
         .expect(201)
         .then( res => {
           token2 = res.body.id_token;
-        });
+        }); 
     })
     .then( res => {
       return request(app)
@@ -304,50 +302,14 @@ test('Successfully submits rsvp response to event', (t) => {
     });
 });
 
-test('Successfully matches group and returns partner match', (t) => {
-  const guests = [];
-  const partner1 = {};
-  const partner2 = {};
-
-  //  create an array of fake guests to the same party
-  for (let i = 0; i < 8; i++) {
-    guests.push({
-      email: faker.internet.email(),
-      eventID: -1,
-      rsvpStatus: 'attending',
-    });
-  }
-
-  knex("user-events").insert(guests).then(() => {
-    request(app)
-    .post('/event/-1/match')
-    .send(null)
-    .expect(200)
-    .end( (err, res) => {
-      t.same(res.status, 200, 'correct status code was sent');
-      t.ok(res.body.matches && !!res.body.matches.length, 'matches should exist');
-      t.ok(allUnique(res.body.matches, partner1, 'partner1'), 'first partner should be unique');
-      t.ok(allUnique(res.body.matches, partner2, 'partner2'), 'second partner should be unique');
-      t.ok(allUnique(partner1, partner2), 'partners should be givers and receivers')
-      destroy(t);
-    });
-  });
-
-  //  helper function for testing that each guest is once a giver and once a receiver
-  function allUnique(obj1, obj2, key) {
-    if (!obj1 || !Object.keys(obj1).length) return false;
-
-    if (Array.isArray(obj1)) {
-      obj1.forEach( item => {
-        if(obj2[item[key]]) return false;
-        obj2[item[key]] = true;
-      });
-    } else {
-      for (let partner in obj1) {
-        if (!obj2[partner]) return false;
-      }
-    }
-    return true;
-  }
-
-});
+// test('Successfully matches group and returns partner match', (t) => {
+//   request(app)
+//     .post('/event/1234/match')
+//     .send({null})
+//     .expect(200)
+//     .end( (err, res) => {
+//       t.same(res.status, 200, 'correct status code was sent');
+//       t.ok(res.body.matchedUser, 'matchedPartner should exist');
+//       destroy(t);
+//     });
+// });
