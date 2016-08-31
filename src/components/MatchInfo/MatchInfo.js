@@ -5,11 +5,11 @@ const MatchInfo = ({ matchName, matchID, matchPicture }) => {
   return (
     <div>
       <h4>you got matched with... </h4>
-      <img src={matchPicture}></img>
+      <img src={matchPicture} />
       <RectangleButton
-      color={'green'}
-      url={matchID}
-      text={`View ${matchName}'s wishlist`}
+        color={'green'}
+        url={matchID}
+        text={`View ${matchName}'s wishlist`}
       />
     </div>
   );
