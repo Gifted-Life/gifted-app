@@ -8,6 +8,7 @@ import store from './../../store.js';
 // TODO
 // Make AJAX call to the server with email and password
 // Dispatch success or error action after AJAX to display error message
+// Should make purely presentational component and pass down these 4 fns as props?
 
 class LoginContainer extends React.Component {
 
