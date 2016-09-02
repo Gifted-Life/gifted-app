@@ -1,0 +1,21 @@
+.eventInfo {
+  margin: 1em 0.5em;
+  padding: 0.5em;
+  max-width: 660px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid black;
+
+  h3 {
+    background-color: #E0E0E0;
+  }
+
+  hr {
+    margin: 0 auto;
+    padding: 0;
+    color: grey;
+    width: 70%;
+  }
+}
+
