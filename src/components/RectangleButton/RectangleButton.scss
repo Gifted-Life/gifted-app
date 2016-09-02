@@ -1,11 +1,25 @@
+$button-width: 100px;
+
+.buttonz {
+  border-width: 0;
+  color: white;
+  border-radius: 5px;
+  height: $button-width / 3;
+  width: $button-width;
+}
+
+
 .submit {
-  color: #43A047;
+  @extend .buttonz;
+  background-color: #43A047;
 }
 
 .default {
-  color: #1E88E5;
+  @extend .buttonz;
+  background-color: #1E88E5;
 }
 
 .delete {
-  color: #EF5350;
+  @extend .buttonz;
+  background-color: #EF5350;
 }
