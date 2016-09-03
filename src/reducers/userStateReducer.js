@@ -3,7 +3,7 @@ import * as types from './../actions/actionTypes.js';
 const initialState = {
   email: '',
   password: '',
-  correctLoginEmailAndPw: true,
+  emptyLoginField: false,
 };
 
 function userStateReducer(state = initialState, action) {
@@ -12,6 +12,8 @@ function userStateReducer(state = initialState, action) {
       return Object.assign({}, state, { email: action.emailInput });
     case types.PASSWORD_INPUT:
       return Object.assign({}, state, { password: action.passwordInput });
+    case (types.EMPTY_LOGIN_FIELD):
+      return Object.assign({}, state, { emptyLoginField: true });
     default:
       return state;
   }
