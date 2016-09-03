@@ -14,7 +14,7 @@ class LoginContainer extends React.Component {
     super(props);
     this.updateUserEmail = this.updateUserEmail.bind(this);
     this.updateUserPassword = this.updateUserPassword.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.submitLoginForm = this.submitLoginForm.bind(this);
     this.displayErrorMessage = this.displayErrorMessage.bind(this);
   }
 
