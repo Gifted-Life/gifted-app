@@ -29,6 +29,7 @@ export function submitLoginAction() {
       dispatch(fetchUserInfoAction(email, password));
     } else {
       dispatch(emptyLoginFieldAction());
-  }
-  return;
+    }
+    return;
+  };
 }
