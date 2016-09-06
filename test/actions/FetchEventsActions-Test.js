@@ -1,10 +1,5 @@
 import { expect } from 'chai';
-import { 
-  requestUserInfoAction,
-  receiveUserInfoAction,
-  failureUserInfoAction,
-  fetchUserInfoAction,
-} from './../../src/actions/fetchEventsActions.js';
+import { requestUserInfoAction, receiveUserInfoAction, failureUserInfoAction } from './../../src/actions/fetchEventsActions.js';
 import * as types from './../../src/actions/actionTypes.js';
 
 describe('Fetch Events Actions', () => {
@@ -25,14 +20,10 @@ describe('Fetch Events Actions', () => {
     expect(receiveUserInfoAction(userEvents)).to.eql(expectedAction);
   });
 
-  it('should create an action to indicate failure of user information request', () => {
+  it('should create an action to indicate user information request failed', () => {
     const expectedAction = {
       type: types.FETCH_USER_INFO_FAILURE,
     };
     expect(failureUserInfoAction()).to.eql(expectedAction);
-  });
-
-  xit('should create a function to fetch user information', () => {
-
   });
 });
