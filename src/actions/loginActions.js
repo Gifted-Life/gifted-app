@@ -20,16 +20,3 @@ export function emptyLoginFieldAction() {
     type: types.EMPTY_LOGIN_FIELD,
   };
 }
-
-export function submitLoginAction() {
-  return function (dispatch, getState) {
-    const email = getState().userState.email;
-    const password = getState().userState.password;
-    if (email && password) {
-      dispatch(fetchUserInfoAction(email, password));
-    } else {
-      dispatch(emptyLoginFieldAction());
-    }
-    return;
-  };
-}
