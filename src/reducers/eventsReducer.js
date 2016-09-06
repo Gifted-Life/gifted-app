@@ -9,7 +9,10 @@ const initialState = {
 function eventsReducer(state = initialState, action) {
   switch (action.type) {
     case types.FETCH_USER_INFO_REQUEST:
-      return Object.assign({}, state, { isFetching: true });
+      return Object.assign({}, state, {
+        isFetching: true,
+        errorFetching: false,
+      });
     case types.FETCH_USER_INFO_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
