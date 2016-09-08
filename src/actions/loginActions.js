@@ -1,5 +1,4 @@
 import * as types from './actionTypes.js';
-import fetchUserInfoAction from './fetchEventsActions.js';
 
 export function emailInputAction(input) {
   return {
