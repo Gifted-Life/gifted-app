@@ -3,11 +3,11 @@ import FormInput from './../../components/FormInputs/FormInput.js';
 import RectangleButton from './../../components/RectangleButton/RectangleButton.js';
 import ErrorMessage from './../../components/ErrorMessage/ErrorMessage.js';
 import { emailInputAction, passwordInputAction } from './../../actions/loginActions.js';
+import submitLoginAction from './../../actions/impureActions.js';
 import store from './../../store.js';
 
 // TODO
-// Make AJAX call to the server with email and password
-// Dispatch success or error action after AJAX to display error message
+// Should make purely presentational component and pass down these 4 fns as props?
 
 class LoginContainer extends React.Component {
 
@@ -15,7 +15,7 @@ class LoginContainer extends React.Component {
     super(props);
     this.updateUserEmail = this.updateUserEmail.bind(this);
     this.updateUserPassword = this.updateUserPassword.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.submitLoginForm = this.submitLoginForm.bind(this);
     this.displayErrorMessage = this.displayErrorMessage.bind(this);
   }
 
@@ -29,19 +29,27 @@ class LoginContainer extends React.Component {
     store.dispatch(passwordInputAction(inputValue));
   }
 
-  submitForm(e) {
+  submitLoginForm(e) {
     e.preventDefault();
     console.log('make request to the server');
+    store.dispatch(submitLoginAction());
   }
 
   displayErrorMessage() {
-    return store.getState().userState.correctLoginEmailAndPw ? '' :
-      (<ErrorMessage
+    if (store.getState().events.errorFetching) {
+      return (<ErrorMessage
         errorMsgID='loginError'
         errorMsgText='Incorrect email address or password'
       />);
+    } else if (store.getState().userState.emptyLoginField) {
+      return (<ErrorMessage
+        errorMsgID='emptyLoginInputError'
+        errorMsgText='All fields are required'
+      />);
+    }
+    return '';
   }
-  
+
   render() {
 
     let errorMessage = this.displayErrorMessage();
