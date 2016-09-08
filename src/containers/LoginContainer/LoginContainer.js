@@ -2,7 +2,8 @@ import React from 'react';
 import FormInput from './../../components/FormInputs/FormInput.js';
 import RectangleButton from './../../components/RectangleButton/RectangleButton.js';
 import ErrorMessage from './../../components/ErrorMessage/ErrorMessage.js';
-import { emailInputAction, passwordInputAction, submitLoginAction } from './../../actions/loginActions.js';
+import { emailInputAction, passwordInputAction } from './../../actions/loginActions.js';
+import submitLoginAction from './../../actions/impureActions.js';
 import store from './../../store.js';
 
 // TODO
