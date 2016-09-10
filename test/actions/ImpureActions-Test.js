@@ -55,27 +55,34 @@ describe('Impure Actions', () => {
   });
 
   describe('Submit Login Action', () => {
+
     it('should dispatch empty login field action if empty email field', () => {
       const expectedAction = [{ type: types.EMPTY_LOGIN_FIELD }];
-      const store = mockStore({ userState: { email: '', password: 'hola' } });
+      const store = mockStore({});
+      const email = '';
+      const password = 'hola';
 
-      store.dispatch(submitLoginAction());
+      store.dispatch(submitLoginAction(email, password));
       expect(store.getActions()).to.eql(expectedAction);
     });
 
     it('should dispatch empty login field action if empty password field', () => {
       const expectedAction = [{ type: types.EMPTY_LOGIN_FIELD }];
-      const store = mockStore({ userState: { email: 'hello@hi.com', password: '' } });
+      const store = mockStore({});
+      const email = 'hello@hi.com';
+      const password = '';
 
-      store.dispatch(submitLoginAction());
+      store.dispatch(submitLoginAction(email, password));
       expect(store.getActions()).to.eql(expectedAction);
     });
 
     it('should dispatch empty login field action if empty email and password fields', () => {
       const expectedAction = [{ type: types.EMPTY_LOGIN_FIELD }];
-      const store = mockStore({ userState: { email: '', password: '' } });
+      const store = mockStore({});
+      const email = '';
+      const password = '';
 
-      store.dispatch(submitLoginAction());
+      store.dispatch(submitLoginAction(email, password));
       expect(store.getActions()).to.eql(expectedAction);
     });
 
@@ -84,9 +91,11 @@ describe('Impure Actions', () => {
       // fetching process. This test is testing whether 'fetch user info action' was dispatched, 
       // by looking for the 'fetch user info request' action that is dispatched from of it.
       const expectedAction = [{ type: types.FETCH_USER_INFO_REQUEST }];
-      const store = mockStore({ userState: { email: 'hello@hi.com', password: 'hola' } });
+      const store = mockStore({});
+      const email = 'hello@hi.com';
+      const password = 'hola';
 
-      store.dispatch(submitLoginAction());
+      store.dispatch(submitLoginAction(email, password));
       expect(store.getActions()).to.eql(expectedAction);
     });
   });
