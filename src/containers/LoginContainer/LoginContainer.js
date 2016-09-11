@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import FormInput from './../../components/FormInputs/FormInput.js';
 import RectangleButton from './../../components/RectangleButton/RectangleButton.js';
 import ErrorMessage from './../../components/ErrorMessage/ErrorMessage.js';
-import { emailInputAction, passwordInputAction } from './../../actions/loginActions.js';
-import submitLoginAction from './../../actions/impureActions.js';
-import store from './../../store.js';
+import * as loginActions from './../../actions/loginActions.js';
+import * as impureActions from './../../actions/impureActions.js';
 
 // TODO
 // Should make purely presentational component and pass down these 4 fns as props?
@@ -21,27 +22,27 @@ class LoginContainer extends React.Component {
 
   updateUserEmail(event) {
     const inputValue = event.target.value;
-    store.dispatch(emailInputAction(inputValue));
+    this.props.loginActions.emailInputAction(inputValue);
   }
 
   updateUserPassword(event) {
     const inputValue = event.target.value;
-    store.dispatch(passwordInputAction(inputValue));
+    this.props.loginActions.passwordInputAction(inputValue);
   }
 
   submitLoginForm(e) {
     e.preventDefault();
-    console.log('make request to the server');
-    store.dispatch(submitLoginAction());
+    console.log('submit form');
+    this.props.impureActions.submitLoginAction(this.props.userState.email, this.props.userState.password);
   }
 
   displayErrorMessage() {
-    if (store.getState().events.errorFetching) {
+    if (this.props.events.errorFetching) {
       return (<ErrorMessage
         errorMsgID='loginError'
         errorMsgText='Incorrect email address or password'
       />);
-    } else if (store.getState().userState.emptyLoginField) {
+    } else if (this.props.userState.emptyLoginField) {
       return (<ErrorMessage
         errorMsgID='emptyLoginInputError'
         errorMsgText='All fields are required'
@@ -82,4 +83,25 @@ class LoginContainer extends React.Component {
   }
 }
 
-export default LoginContainer;
+function mapStateToProps(state) {
+  return {
+    userState: state.userState,
+    events: state.events,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loginActions: bindActionCreators(loginActions, dispatch),
+    impureActions: bindActionCreators(impureActions, dispatch),
+  };
+}
+
+LoginContainer.propTypes = {
+  loginActions: PropTypes.object,
+  impureActions: PropTypes.object,
+  userState: PropTypes.object,
+  events: PropTypes.object,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

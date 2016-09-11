@@ -16,19 +16,19 @@ export function fetchUserInfoAction(email, password) {
         dispatch(receiveUserInfoAction(response.data.events));
       })
       .catch((error) => {
+        console.log('inside catch');
         if (error.response) {
           dispatch(failureUserInfoAction());
         } else {
+          console.log('inside error');
           throw new Error('Error preparing ajax request');
         }
       });
   };
 }
 
-export function submitLoginAction() {
-  return function (dispatch, getState) {
-    const email = getState().userState.email;
-    const password = getState().userState.password;
+export function submitLoginAction(email, password) {
+  return function (dispatch) {
     if (email && password) {
       dispatch(fetchUserInfoAction(email, password));
     } else {
