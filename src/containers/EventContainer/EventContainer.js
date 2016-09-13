@@ -1,26 +1,27 @@
 import React, { PropTypes } from 'react';
 import MatchInfo from '../../components/MatchInfo/MatchInfo';
 import EventInformation from '../../components/EventInformation/EventInformation';
+import styles from './EventContainer.scss';
 
 const EventContainer = ({ matchInfo, eventInfo }) => {
-  const { matchName, matchId, matchPicture } = matchInfo;
+  const { matchName, matchID, matchPicture } = matchInfo;
   const { eventName, location, timeAndDate, peopleGoing, price, comments } = eventInfo;
   return (
-    <div>
+    <div className={styles.eventContainer}>
       <h2>{eventName}</h2>
       <MatchInfo
         matchName={matchName}
-        matchId={matchId}
+        matchID={matchID}
         matchPicture={matchPicture}
       />
       <EventInformation
-        type={'Date/Time'}
+        type={'Date / Time'}
         info={`${timeAndDate.startTime} - ${timeAndDate.endTime}`}
       />
       <EventInformation
         type={'Location'}
-        info={`${location.name}
-        ${location.address} ${location.city}, ${location.state} ${location.zip}`}
+        info={(<div><p>{location.name}</p>
+          <p>{`${location.address} ${location.city}, ${location.state} ${location.zip}`}</p></div>)}
       />
       <EventInformation
         type={'Price Range'}
