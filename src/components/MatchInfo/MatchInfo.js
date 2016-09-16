@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 import RectangleButton from '../RectangleButton/RectangleButton';
+import styles from './MatchInfo.scss';
 
 const MatchInfo = ({ matchName, matchID, matchPicture }) => {
   return (
-    <div>
+    <div className={styles.matchInfo}>
       <h4>you got matched with... </h4>
       <img src={matchPicture}></img>
       <RectangleButton

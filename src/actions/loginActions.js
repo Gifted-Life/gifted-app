@@ -1,0 +1,21 @@
+import * as types from './actionTypes.js';
+
+export function emailInputAction(input) {
+  return {
+    type: types.EMAIL_ADDRESS_INPUT,
+    emailInput: input,
+  };
+}
+
+export function passwordInputAction(input) {
+  return {
+    type: types.PASSWORD_INPUT,
+    passwordInput: input,
+  };
+}
+
+export function emptyLoginFieldAction() {
+  return {
+    type: types.EMPTY_LOGIN_FIELD,
+  };
+}
