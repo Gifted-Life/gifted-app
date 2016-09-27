@@ -6,13 +6,12 @@ const MatchInfo = ({ matchName, matchID, matchPicture }) => {
   return (
     <div className={styles.matchInfo}>
       <h4>you got matched with... </h4>
-      <img src={matchPicture} />
-      <p>{matchName}</p>
+      <img src={matchPicture}></img>
       <RectangleButton
         type={'default'}
         url={matchID}
         text={`View ${matchName}'s wishlist`}
-      />
+        />
     </div>
   );
 };

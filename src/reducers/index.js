@@ -9,4 +9,5 @@ const reducers = combineReducers({
   events: eventsReducer,
 });
 
+
 export default reducers;

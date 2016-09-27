@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import styles from './Logo.css';
+import styles from './Logo.scss';
 
 const Logo = props => {
   const { logoSrc } = props;

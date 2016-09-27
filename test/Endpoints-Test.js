@@ -1,4 +1,3 @@
-
 'use strict';
 const test = require('tape');
 const request = require('supertest-as-promised');

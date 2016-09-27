@@ -1,13 +1,17 @@
-import style from './RectangleButton.scss';
 import React, { PropTypes } from 'react';
+import styles from './RectangleButton.scss';
 
 // types: submit, next, ???
 
-const RectangleButton = ({ url, width, text, handleClick, type }) => {
+const RectangleButton = ({ color, url, width, text, handleClick, type }) => {
+  const buttonStyle = {
+    backgroundColor: color,
+    width,
+  };
 
   return (
     <a href={url}>
-      <button className={style[type]} onClick={handleClick}>
+      <button className={styles[type]} onClick={handleClick}>
         {text}
       </button>
     </a>

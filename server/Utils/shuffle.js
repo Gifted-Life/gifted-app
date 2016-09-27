@@ -1,5 +1,5 @@
 const shuffle = (arr) => {
-  var partition = arr.length, temp, chosen;
+  let partition = arr.length, temp, chosen;
   // While there remain elements to shuffle…
   while (partition) {
     // Pick a remaining element…

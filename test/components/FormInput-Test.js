@@ -46,4 +46,3 @@ describe('Form Input Component', () => {
     expect(handleChangeFn.callCount).to.equal(1);
   });
 });
-
